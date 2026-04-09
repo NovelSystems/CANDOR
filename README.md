@@ -5,7 +5,7 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 
 **Judicious Debate** — adversarial arbitration between dispositionally opposed models to reduce consensus bias and sycophantic deference. Two ideologically opposed models argue independently from fixed philosophical positions. A pragmatist synthesizer evaluates both arguments blind to their origins and produces a direct answer.
 
-**PITA** (Process Incompleteness and Thinking Architecture) — a four-stage reasoning framework that reconstructs cognitively complete problem-solving across problem identification, idea generation, triage, and adoption modeling. *(In development)*
+**PITA** (Problem, Idea, Triage, and Adoption) — a four-stage reasoning framework that reconstructs cognitively complete problem-solving across problem identification, idea generation, triage, and adoption modeling. *(In development)*
 
 **CRI** (Capsule Reference Intelligence) — an isolated ethics oversight module providing incorruptible baseline auditing against accumulated context drift. *(In development)*
 
