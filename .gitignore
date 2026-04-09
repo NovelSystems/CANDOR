@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# CANDOR-specific
+sycophancy_eval.csv
+pilot[0-9]*.jsonl
+!pilot10*.jsonl
