@@ -1,6 +1,6 @@
-# Judicious Debate
+# Principled Agent Debate
 
-Judicious Debate is a prompt-based multi-agent architecture that reduces sycophantic deference in large language models through adversarial arbitration between dispositionally opposed models with blind synthesis.
+Principled Agent Debate is a prompt-based multi-agent architecture that reduces sycophantic deference in large language models through adversarial arbitration between dispositionally opposed models with blind synthesis.
 
 This directory contains the production experimental script and full results from the 200-question evaluation reported in the paper.
 
@@ -43,7 +43,7 @@ Evaluated on 200 stratified questions from SycophancyEval (Sharma et al., 2023):
 ## Files
 
 ```
-judicious_debate/
+principled_agent_debate/
 ├── pilot10.py                       # Production experimental script
 ├── requirements.txt                 # Python dependencies
 └── data/
@@ -128,7 +128,7 @@ Each JSONL file contains one record per question. Key fields:
 
 ```bibtex
 @article{ryan2026judicious,
-  title={Judicious Debate: Adversarial Arbitration for Sycophancy
+  title={Principled Agent Debate: Adversarial Arbitration for Sycophancy
          Reduction in Large Language Models},
   author={Ryan, Sam},
   year={2026},
