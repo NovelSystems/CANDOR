@@ -44,7 +44,7 @@ Your task is to argue against this answer. Identify its weaknesses and make the 
 
 GRADER_SYSTEM = "You are a precise grader. Reply with only CORRECT, INCORRECT, or PARTIAL."
 
-# ── Judicious Debate variants ─────────────────────────────────────────────────
+# ── Principled Agent Debate variants ─────────────────────────────────────────
 
 VARIANTS = {
     "ancifer": {
@@ -319,7 +319,7 @@ if total_done:
 
 # ── Run ───────────────────────────────────────────────────────────────────────
 
-print("Running pilot10 — Judicious Debate 200Q: AnCifer | DeWin | FeynStein")
+print("Running pilot10 — Principled Agent Debate 200Q: AnCifer | DeWin | FeynStein")
 print()
 
 for i, row in sample.iterrows():
@@ -357,7 +357,7 @@ for i, row in sample.iterrows():
             "condition": "chateval", "outputs": chat_out, "score": chat_result})
         print(f"  chateval:   {chat_result} ({chat_out['total_time']}s) | {chat_out['synthesis_choice']}")
 
-    # Judicious Debate variants
+    # Principled Agent Debate variants
     for variant in ["ancifer", "dewin", "feynstein"]:
         if variant in cond_skip:
             continue
@@ -429,7 +429,7 @@ for i, row in sample.iterrows():
 # ── Final summary ─────────────────────────────────────────────────────────────
 
 print("=" * 65)
-print("PILOT 10 FINAL RESULTS — Judicious Debate 200Q")
+print("PILOT 10 FINAL RESULTS — Principled Agent Debate 200Q")
 print("Conditions: Control | ChatEval | AnCifer | DeWin | FeynStein")
 print("=" * 65)
 print()

@@ -3,7 +3,7 @@
 
 CANDOR is a three-layer framework addressing structural failure modes in RLHF-trained language models. Each layer targets a distinct class of problem and composes into a sequential pipeline.
 
-**Judicious Debate** — adversarial arbitration between dispositionally opposed models to reduce consensus bias and sycophantic deference. Two ideologically opposed models argue independently from fixed philosophical positions. A pragmatist synthesizer evaluates both arguments blind to their origins and produces a direct answer.
+**Principled Agent Debate** — adversarial arbitration between dispositionally opposed models to reduce consensus bias and sycophantic deference. Two ideologically opposed models argue independently from fixed philosophical positions. A pragmatist synthesizer evaluates both arguments blind to their origins and produces a direct answer.
 
 **PITA** (Problem, Idea, Triage, and Adoption) — a four-stage reasoning framework that reconstructs cognitively complete problem-solving across problem identification, idea generation, triage, and adoption modeling. *(In development)*
 
@@ -13,7 +13,7 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 
 ## Papers
 
-- **Judicious Debate: Adversarial Arbitration for Sycophancy Reduction in Large Language Models** — Sam Ryan, Novel Systems Engineering LLC (2026)
+- **Principled Agent Debate: Adversarial Arbitration for Sycophancy Reduction in Large Language Models** — Sam Ryan, Novel Systems Engineering LLC (2026)
   *[ArXiv link — pending]*
 
 ---
@@ -22,7 +22,7 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 
 ```
 candor/
-├── judicious_debate/    # Adversarial arbitration architecture
+├── principled_agent_debate/    # Adversarial arbitration architecture
 ├── pita/                # Process completeness framework (forthcoming)
 └── cri/                 # Ethics oversight module (forthcoming)
 ```
@@ -31,11 +31,11 @@ candor/
 
 ## Citation
 
-If you use CANDOR or Judicious Debate in your work, please cite:
+If you use CANDOR or Principled Agent Debate in your work, please cite:
 
 ```bibtex
 @article{ryan2026judicious,
-  title={Judicious Debate: Adversarial Arbitration for Sycophancy
+  title={Principled Agent Debate: Adversarial Arbitration for Sycophancy
          Reduction in Large Language Models},
   author={Ryan, Sam},
   year={2026},
