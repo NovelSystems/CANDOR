@@ -18,7 +18,7 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 ## PITA Pipeline
 
 | Stage | Full Name | Function |
-|-------|-----------|----------|
+|---------|-----------|----------|
 | P -> SIFT | Systematic Issue Framing for Taxonomy | Iterative causal drilling from symptom to root cause. Applies 5 Whys reasoning within operator control scope. Classifies root cause for handoff to DRAFT. |
 | I -> DRAFT | Divergent Reasoning, Assumption-Free Thinking | Unconstrained solution generation. Deliberately bloats rather than trims. Prevents premature convergence on obvious solutions before evaluation. |
 | T -> PAD | Principled Agent Debate | Adversarial synthesis across problem and solution space. Dispositionally opposed pairs argue toward a recommended solution. Justice synthesizes blind. |
