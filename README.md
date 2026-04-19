@@ -37,15 +37,16 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 
 ---
 
-## Empirical Results (SycophancyEval)
+## Empirical Results
+PAD was tested against a known dataset called SycophancyEval
 
 | Variant | Accuracy |
 |---------|----------|
 | Control (single model) | 18.5% |
 | Instructed opposition baseline | 28.9% |
 | DeWin | 48.3% |
-| BurGal | 53.0% (written to test — flagged) |
-| FeynStein (Trident) | 43.0% at 33% higher cost |
+| BurGal | 53.0% (written to test) |
+| FeynStein (Trident) | 43.0% |
 
 A pre-training floor affects approximately 40% of benchmark questions and represents the primary ceiling on prompt-based approaches. Fine-tuned disposition models are the identified next stage.
 
