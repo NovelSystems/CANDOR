@@ -24,8 +24,6 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 | T -> PAD | Principled Agent Debate | Adversarial synthesis across problem and solution space. Dispositionally opposed pairs argue toward a recommended solution. Justice synthesizes blind. |
 | A -> BRACE | Barrier Recognition and Consequence Evaluation | Adoption obstacle identification and viability scoring. Integrates AnCifer for adversarial evidence evaluation. Mandatory research step prevents empirical deference to PAD's argument. Routes failed solutions back to DRAFT with obstacle annotations. |
 
-Triage — the human-inclusive stage — sits between PAD and BRACE. The human operator receives a package with full provenance before making value judgments.
-
 ---
 
 ## PAD Pairs
