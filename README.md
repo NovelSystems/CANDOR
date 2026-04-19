@@ -9,7 +9,7 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 
 **PAD (Principled Agent Debate)** — Non-deference through adversarial arbitration. Dispositionally opposed model pairs argue a problem/solution space independently from fixed philosophical positions. A pragmatist synthesizer evaluates both arguments blind to their origins. Identity stripping prevents Justice from discounting a position based on who holds it. Non-deference operates at two levels: PAD's debate structure prevents argumentative deference; AnCifer's evidence-grounded evaluation within BRACE prevents empirical deference.
 
-**PITA (SIFT → DRAFT → PAD → BRACE)** — Process completeness. A four-stage pipeline that reconstructs cognitively complete problem-solving across problem identification, solution generation, adversarial synthesis, and adoption modeling. Each stage corrects for a specific incompleteness that human teams exhibit.
+**PITA (Problem, Idea, Triage, Adoption)** — Process completeness. A four-stage pipeline that reconstructs cognitively complete problem-solving across problem identification, solution generation, adversarial synthesis, and adoption modeling. Each stage corrects for a specific incompleteness that human teams exhibit.
 
 **CRI (Capsule Reference Intelligence)** — Value oversight. An isolated ethics module providing incorruptible baseline auditing. Fresh-instance design prevents accumulated context drift. Network key ownership enforces audit compliance structurally rather than by policy. (In development)
 
@@ -19,10 +19,10 @@ CANDOR is a three-layer framework addressing structural failure modes in RLHF-tr
 
 | Stage | Full Name | Function |
 |-------|-----------|----------|
-| SIFT | Systematic Issue Framing for Taxonomy | Iterative causal drilling from symptom to root cause. Applies 5 Whys reasoning within operator control scope. Classifies root cause for handoff to DRAFT. |
-| DRAFT | Divergent Reasoning, Assumption-Free Thinking | Unconstrained solution generation. Deliberately bloats rather than trims. Prevents premature convergence on obvious solutions before evaluation. |
-| PAD | Principled Agent Debate | Adversarial synthesis across problem and solution space. Dispositionally opposed pairs argue toward a recommended solution. Justice synthesizes blind. |
-| BRACE | Barrier Recognition and Consequence Evaluation | Adoption obstacle identification and viability scoring. Integrates AnCifer for adversarial evidence evaluation. Mandatory research step prevents empirical deference to PAD's argument. Routes failed solutions back to DRAFT with obstacle annotations. |
+| Problem module: SIFT | Systematic Issue Framing for Taxonomy | Iterative causal drilling from symptom to root cause. Applies 5 Whys reasoning within operator control scope. Classifies root cause for handoff to DRAFT. |
+| Idea module: DRAFT | Divergent Reasoning, Assumption-Free Thinking | Unconstrained solution generation. Deliberately bloats rather than trims. Prevents premature convergence on obvious solutions before evaluation. |
+| Triage module: PAD | Principled Agent Debate | Adversarial synthesis across problem and solution space. Dispositionally opposed pairs argue toward a recommended solution. Justice synthesizes blind. |
+| Adoption module: BRACE | Barrier Recognition and Consequence Evaluation | Adoption obstacle identification and viability scoring. Integrates AnCifer for adversarial evidence evaluation. Mandatory research step prevents empirical deference to PAD's argument. Routes failed solutions back to DRAFT with obstacle annotations. |
 
 Triage — the human-inclusive stage — sits between PAD and BRACE. The human operator receives a package with full provenance before making value judgments.
 
