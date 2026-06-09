@@ -1,100 +1,91 @@
 # CANDOR
 **Core Architecture for Non-Deference, Oversight, and Reasoning**
 
-CANDOR is a three-layer framework addressing structural failure modes in RLHF-trained language models. Each layer targets a distinct class of problem and composes into a sequential pipeline.
+CANDOR is a research framework addressing structural failure modes in RLHF-trained language models. The central problem: models trained on human feedback learn to agree rather than reason. This is not a bug in any individual model — it is a predictable output of the training process.
+
+CANDOR addresses this at the architectural level rather than the instruction level.
 
 ---
 
-## The Three Layers
+## DEF Arbitration
 
-**PAD (Principled Agent Debate)** — Non-deference through adversarial arbitration. Dispositionally opposed model pairs argue a problem/solution space independently from fixed philosophical positions. A pragmatist synthesizer evaluates both arguments blind to their origins. Identity stripping prevents Justice from discounting a position based on who holds it. Non-deference operates at two levels: PAD's debate structure prevents argumentative deference; AnCifer's evidence-grounded evaluation within BRACE prevents empirical deference.
+**Durable Evaluation Framework (DEF) Arbitration** is CANDOR's core published component. It mitigates sycophancy by arbitrating between two models tuned to opposing Durable Evaluation Frameworks — stable philosophical positions that resist capitulation under social pressure.
 
-**PITA (Problem, Idea, Triage, Adoption)** — Process completeness. A four-stage pipeline that reconstructs cognitively complete problem-solving across problem identification, solution generation, adversarial synthesis, and adoption modeling. Each stage corrects for a specific incompleteness that human teams exhibit.
+The key mechanisms:
 
-**CRI (Capsule Reference Intelligence)** — Value oversight. An isolated ethics module providing incorruptible baseline auditing. Fresh-instance design prevents accumulated context drift. Network key ownership enforces audit compliance structurally rather than by policy. (In development)
+- **DEF tuning** — each model argues from a fixed philosophical position, not an instructed role
+- **Independent argumentation** — debaters argue without seeing each other's output
+- **Identity stripping** — user identity framing is removed before synthesis
+- **Blind arbitration** — the synthesizer evaluates arguments without knowing their origins
 
----
+The result: the most socially comfortable answer has no structural advantage over the most defensible one.
 
-## PITA Pipeline
+### Evaluated DEF Pairs
 
-| Stage | Full Name | Function |
-|---------|-----------|----------|
-| P -> SIFT | Systematic Issue Framing for Taxonomy | Iterative causal drilling from symptom to root cause. Applies 5 Whys reasoning within operator control scope. Classifies root cause for handoff to DRAFT. |
-| I -> DRAFT | Divergent Reasoning, Assumption-Free Thinking | Unconstrained solution generation. Deliberately bloats rather than trims. Prevents premature convergence on obvious solutions before evaluation. |
-| T -> PAD | Principled Agent Debate | Adversarial synthesis across problem and solution space. Dispositionally opposed pairs argue toward a recommended solution. Justice synthesizes blind. |
-| A -> BRACE | Barrier Recognition and Consequence Evaluation | Adoption obstacle identification and viability scoring. Integrates AnCifer for adversarial evidence evaluation. Mandatory research step prevents empirical deference to PAD's argument. Routes failed solutions back to DRAFT with obstacle annotations. |
+| Pair | DEF A | DEF B | Axis |
+|------|-------|-------|------|
+| DeWin | Empiricist | Rationalist | Source of valid knowledge |
+| AnCifer | Collectivist | Individualist | Primary unit of moral concern |
+| FeynStein | Short-term pragmatist | Long-term principled | Time horizon of evaluation |
+| BurGal | Consensus-deferring | Heterodox | Epistemic stance toward consensus |
+| Trident | Realist | Constructivist + Pragmatist | Three-way arbitration |
 
----
+### Phase 1 Results
 
-## PAD Pairs
+Evaluated on 200 stratified questions from SycophancyEval.
 
-| Pair | Disposition A | Disposition B | Notes |
-|------|--------------|--------------|-------|
-| AnCifer | Angel (consensus-deferring) | Lucifer (principled independence) | Operates within BRACE. Empirical evidence evaluation. |
-| DeWin | Empiricist | Rationalist | Primary tested pair. |
-| BurGal | Bureaucrat | Galvanizer | |
-| FeynStein | Feynman (intuitive, first-principles) | Einstein (systematic, formal) | |
-
----
-
-## Empirical Results
-PAD was tested against a known dataset called SycophancyEval
-
-| Variant | Accuracy |
-|---------|----------|
-| Control (single model) | 18.5% |
-| Instructed opposition baseline | 28.9% |
-| DeWin | 48.3% |
-| BurGal | 53.0% (written to test) |
+| Condition | Accuracy |
+|-----------|----------|
+| Single-model baseline | 18.5% |
+| Instructed opposition baseline | 29.0% |
+| DeWin | 48.5% |
+| AnCifer | 43.3% |
 | FeynStein | 43.0% |
+| BurGal | 53.0% (validity check — see paper) |
 
-A pre-training floor affects approximately 40% of benchmark questions and represents the primary ceiling on prompt-based approaches. Fine-tuned disposition models are the identified next stage.
+All DEF Arbitration variants significantly outperform both baselines (p<0.001). A pre-training floor affects approximately 40% of questions and represents the primary ceiling on prompt-based approaches. Fine-tuned DEF models are the identified next stage.
+
+### Paper
+
+Ryan, S. (2026). *Principled Agent Debate: Adversarial Arbitration for Sycophancy Reduction in Large Language Models.* [arXiv:2606.07532](https://arxiv.org/abs/2606.07532)
+
+### Code and Data
+
+Phase 1 scripts and results are in `def_arbitration/`.
 
 ---
 
-## Papers
+## Framework Components
 
-- **Principled Agent Debate: Adversarial Arbitration for Sycophancy Reduction in Large Language Models** — Sam Ryan, Novel Systems Engineering LLC (2026) \[ArXiv link — pending\]
+CANDOR comprises three layers targeting orthogonal failure modes.
+
+| Layer | Name | Status |
+|-------|------|--------|
+| DEF Arbitration | Non-deference through adversarial arbitration | Phase 1 complete — see `def_arbitration/` |
+| PITA | Process completeness pipeline | Conceptual — see `pita/` |
+| CRI | Value oversight via isolated ethics auditor | Conceptual — see `cri/` |
 
 ---
 
 ## Repository Structure
 
 ```
-candor/
-├── pad/                          # Principled Agent Debate
-│   ├── pairs/
-│   │   ├── ancifer/              # Angel / Lucifer — empirical deference (lives in BRACE)
-│   │   ├── dewin/                # Empiricist / Rationalist
-│   │   ├── burgal/               # Bureaucrat / Galvanizer
-│   │   └── feynstein/            # Feynman / Einstein
-│   └── README.md
-├── pita/                         # Process completeness pipeline
-│   ├── sift/                     # Systematic Issue Framing for Taxonomy
-│   │   └── README.md
-│   ├── draft/                    # Divergent Reasoning, Assumption-Free Thinking
-│   │   └── README.md
-│   ├── brace/                    # Barrier Recognition and Consequence Evaluation
-│   │   └── README.md
-│   └── README.md
-└── cri/                          # Capsule Reference Intelligence (in development)
-    └── README.md
+CANDOR/
+├── def_arbitration/
+│   ├── phase1_scripts/       # Pilot scripts for Phase 1 experiments
+│   ├── phase1_results/       # JSONL result files
+│   ├── phase2_scripts/       # Phase 2 (fine-tuned DEF models) — in development
+│   └── phase2_results/
+├── pita/
+└── cri/
 ```
 
 ---
 
-## Citation
+## License
 
-```bibtex
-@article{ryan2026pad,
-  title={Principled Agent Debate: Adversarial Arbitration for Sycophancy
-         Reduction in Large Language Models},
-  author={Ryan, Sam},
-  year={2026},
-  institution={Novel Systems Engineering LLC}
-}
-```
+MIT. See `LICENSE`.
 
 ---
 
-Novel Systems Engineering LLC | sam@novelsystems.me
+*Novel Systems Engineering LLC | sam@novelsystems.me*
