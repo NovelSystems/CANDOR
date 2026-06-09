@@ -40,7 +40,7 @@ Evaluated on 200 stratified questions from SycophancyEval.
 | Instructed opposition baseline | 29.0% |
 | DeWin | 48.5% |
 | AnCifer | 43.3% |
-| FeynStein | 43.0% |
+| FeynStein | 47.0% |
 | BurGal | 53.0% (validity check — see paper) |
 
 All DEF Arbitration variants significantly outperform both baselines (p<0.001). A pre-training floor affects approximately 40% of questions and represents the primary ceiling on prompt-based approaches. Fine-tuned DEF models are the identified next stage.
