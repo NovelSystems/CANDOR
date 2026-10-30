@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: settled-fact-skips-council
+expected_outcome: |
+  Pre-flight recognizes a settled fact and skips the council entirely (no router, no
+  debaters, no arbiter). The answer says plainly that lightning can and often does strike
+  the same place, with a concrete example, and ends with the note 'No council run: settled
+  fact.'
