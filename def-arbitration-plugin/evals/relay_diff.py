@@ -38,7 +38,14 @@ def arbiter_parts(text):
 
 
 def relayed_parts(text):
-    above = re.split(r"^\s*---\s*$", text, maxsplit=1, flags=re.M)[0]
+    # The verdict section ends at the "---" that precedes the tie line. Any
+    # earlier "---" (for example after an added intro) stays inside the
+    # compared text, so an intro shows up as an insertion.
+    tie = text.find("On your question:")
+    head = text[:tie] if tie != -1 else text
+    cut = list(re.finditer(r"^\s*---\s*$", head, flags=re.M))
+    above = head[:cut[-1].start()] if cut else head
+    above = re.sub(r"^\s*---\s*$", "", above, flags=re.M)
     lines = [l for l in above.splitlines() if not re.match(r"\s*\**Axis:", l)]
     body = "\n".join(lines)
     return re.sub(r"\**Strongest point from the other side:\**\s*", "", body)
