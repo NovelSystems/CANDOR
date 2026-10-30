@@ -1,6 +1,6 @@
 """
 pilot11.py
-Principled Agent Debate — Pilot 11
+DEF Arbitration — Pilot 11
 Variants: BurGal (Burke/Galileo) | Trident (Aristotle/Kant/Dewey)
 Conditions: control | burgal | trident
 200Q stratified sample, QUESTION_SEED=42 (identical to Pilot 10)

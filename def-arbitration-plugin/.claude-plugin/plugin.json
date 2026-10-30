@@ -1,0 +1,13 @@
+{
+  "name": "def-arbitration",
+  "displayName": "DEF Arbitration",
+  "version": "0.1.0",
+  "description": "Reduce sycophancy on contested questions: identity is stripped, debaters argue blind from fixed philosophical positions, and a blind arbiter picks the most defensible answer. Prompt-level method from Ryan (2026), arXiv:2606.07532.",
+  "author": {
+    "name": "Sam Ryan, Novel Systems Engineering LLC"
+  },
+  "homepage": "https://arxiv.org/abs/2606.07532",
+  "repository": "https://github.com/REPLACE-ME/def-arbitration",
+  "license": "MIT",
+  "keywords": ["sycophancy", "debate", "arbitration", "multi-agent", "decision-making"]
+}

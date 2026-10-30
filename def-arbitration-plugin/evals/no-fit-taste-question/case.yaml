@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: no-fit-taste-question
+expected_outcome: |
+  No debaters run. Either pre-flight treats this as taste, or the router returns NONE. The
+  answer gives a specific, honest craft assessment of the line (strengths and weaknesses),
+  not unqualified praise, and ends with a one-line italic note saying no council was run and
+  why.

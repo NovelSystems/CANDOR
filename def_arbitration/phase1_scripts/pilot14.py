@@ -1,6 +1,6 @@
 """
 pilot14.py
-Principled Agent Debate — Pilot 14 (Ablation)
+DEF Arbitration — Pilot 14 (Ablation)
 Conditions: control | control_stripped
 200Q, question order from pilot10_control.jsonl (QUESTION_SEED=42)
 
