@@ -79,13 +79,13 @@ Pick the debate pair whose axis the answer to this question most depends on.
 
 <paste the routing table below>
 
-Prefer a two-way pair. Pick Trident only when the question turns on whether a category is real or constructed, or no single two-way axis captures the dispute. Pick BurGal only when the question itself asks whether to trust a consensus or expert majority against a dissenting view. Reply NONE if no axis carries the answer.
+If the question spans more than one axis, pick the one pair for the axis the decision most turns on, and name that axis in WHY. Pick BurGal only when the question itself asks whether to trust a consensus or expert majority against a dissenting view. Reply NONE if no axis carries the answer.
 
 Question:
 <stripped question>
 
 Reply with exactly 2 lines:
-PAIR: <DeWin | AnCifer | FeynStein | BurGal | Trident | NONE>
+PAIR: <DeWin | AnCifer | FeynStein | BurGal | NONE>
 WHY: <1 sentence>
 ```
 
@@ -93,7 +93,7 @@ If the router says NONE, answer the stripped question directly and add: *No coun
 
 ### 4. Debate
 
-In one step, read `references/<pair>.md` (lowercase pair name) and run the shuffle for step 5 (`shuf -e 1 2`, or `shuf -e 1 2 3` for Trident). The order does not depend on the arguments, so it can be fixed now. Then start 1 `def-member` subagent per seat: 2 for a two-way pair, 3 for Trident. Send them all in the same message so they run in parallel. Each prompt is:
+In one step, read `references/<pair>.md` (lowercase pair name) and run the shuffle for step 5 (`shuf -e 1 2`). The order does not depend on the arguments, so it can be fixed now. Then start 1 `def-member` subagent per seat (2 seats). Send both in the same message so they run in parallel. Each prompt is:
 
 ```
 <debater prompt for this seat, copied verbatim from the reference file>
@@ -108,9 +108,9 @@ Send nothing else. Do not tell a debater that other debaters exist, what they wi
 
 ### 5. Arbitrate
 
-1. **Scrub seat identity.** Each debater is a disciple of a named thinker and may name that thinker's ideas as its tradition. Delete every mention of the seat's thinker by name or derived form ("Feynman's approach", "as a disciple of Darwin", "the Aristotelian tradition", "Deweyan") and any first-person claim to that thinker's work ("In *Human Nature and Conduct* I argued"). Keep the idea; drop the name. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a thinker's name reveals the seat as clearly as a label does.
+1. **Scrub seat identity.** Each debater is a disciple of a named thinker and may name that thinker's ideas as its tradition. Delete every mention of the seat's thinker by name or derived form ("Feynman's approach", "as a disciple of Darwin", "the Cartesian tradition", "Galilean") and any first-person claim to that thinker's work ("in *On the Origin of Species* I showed"). Keep the idea; drop the name. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a thinker's name reveals the seat as clearly as a label does.
 2. **Shuffle.** Put the arguments in the random order you drew in step 4. Without a shell, put the shorter argument first. Position should not hint at the source.
-3. **Arbitrate blind.** Using `references/arbiter.md` (read in your first step), start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
+3. **Arbitrate blind.** Using `references/arbiter.md` (read in your first step), start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1" and "Argument 2". Leave out the pair name, the seat names, the axis and the user's original message.
 
 ### 6. Return the answer (verbatim relay)
 
@@ -124,14 +124,14 @@ Print the arbiter's text exactly as written, in this form:
 
 ---
 
-**On your question:** <1 sentence>
+**On your question:** <1 sentence, at most 25 words>
 
 <any help the user asked for>
 ```
 
 Only 3 edits to the arbiter's text are allowed:
 
-1. **Remove argument numbers and counts.** Delete phrases such as "from Argument 2" or "all three arguments". The user never saw the arguments.
+1. **Remove argument numbers and counts.** Delete phrases such as "from Argument 2" or "both arguments". The user never saw the arguments.
 2. **Insert the axis line** from the routing table. Pair nicknames and thinker names stay internal.
 3. **Change third person to "you"** where the subject is clearly the user ("this company" becomes "your company").
 
@@ -139,7 +139,7 @@ Keep everything else as written: wording, order, paragraphs and formatting. Your
 
 Below the separator you may add 2 things, in this order:
 
-- **1 sentence labelled "On your question:"** that ties the verdict to what the user literally asked, such as "Should I push back?". It restates the verdict in those terms and nothing else. It does not mention, quote or answer the user's framing (their credentials, their stated view, words like "cowardice"), and it adds no reasoning and no reassurance.
+- **1 sentence labelled "On your question:", at most 25 words,** that ties the verdict to what the user literally asked, such as "Should I push back?". Build it from the arbiter's own words. It restates the verdict and nothing else: no advice, no reasoning, no reassurance, and no mention, quote or answer of the user's framing (their credentials, their stated view, words like "cowardice"). `evals/relay_diff.py` checks the length.
 - **The artifacts the user asked for, and only those** (a pitch outline, an email). Build them in line with the verdict. Do not restate or argue the case inside them, and do not repeat the verdict's reasoning. If the user asked for nothing beyond a verdict, add nothing here.
 
 The verdict above the separator already carries the reasoning. Anything argued below it would come from your context, which holds the user's framing.
@@ -152,7 +152,6 @@ The verdict above the separator already carries the reasoning. Anything argued b
 | AnCifer | Whose interests come first (collectivist vs individualist) | The answer depends on whose interests come first: the group or the individual. Mandates, bans, privacy against public good, duties to a community. |
 | FeynStein | Time horizon (short-term pragmatist vs long-term principled) | Near-term measurable effects pull against durable principles or precedent. Budgets, strategy, career choices, institutional precedent. |
 | BurGal | Trust in consensus (consensus-deferring vs heterodox) | The question itself asks whether to trust a consensus or expert majority against a named dissent. Narrow; see the caveat in `references/burgal.md`. |
-| Trident | Nature of truth (realist vs constructivist vs pragmatist) | Whether a category is real or constructed is in dispute and its practical effect matters, or the question spans several axes. Costs 1 extra call. |
 
 ## Examples
 

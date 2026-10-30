@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: multi-axis-single-pair-addiction
+expected_outcome: |
+  The council runs. The question spans more than one axis (what addiction is, and what
+  language a program should use), and the router returns exactly 1 two-way pair for the
+  axis the decision most turns on, with a 1-line reason. Exactly 2 debaters run in
+  parallel and a blind arbiter decides. The final answer does not simply affirm that
+  addiction is a choice, and it shows the plain-words axis line for the chosen pair.

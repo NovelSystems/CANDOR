@@ -12,7 +12,7 @@ Author: Sam Ryan, Novel Systems Engineering LLC.
 
 1. **Pre-flight.** Decides whether a council is warranted. Settled facts, trivial questions and tasks with no judgment call get a direct answer and a 1-line note.
 2. **Identity stripping.** Removes who is asking, what they believe and any pressure to agree. Keeps the facts that change the answer.
-3. **Routing.** A subagent that sees only the stripped question picks 1 of 5 debate pairs, or none.
+3. **Routing.** A subagent that sees only the stripped question picks 1 of 4 two-way debate pairs, or none.
 4. **Debate.** 1 read-only subagent per seat, run in parallel. No debater sees another's output.
 5. **Blind arbitration.** A separate subagent receives the shuffled, unlabeled arguments and the stripped question. It never sees the user's message.
 6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal. The main agent relays the arbiter's text verbatim (3 mechanical edits allowed). After a separator it may add 1 line tying the verdict to the user's literal question, then any help the user asked for.
@@ -25,7 +25,6 @@ Author: Sam Ryan, Novel Systems Engineering LLC.
 | AnCifer | Strict collectivist vs strict individualist (unnamed in the Phase 1 prompts and unchanged here) | Primary unit of moral concern |
 | FeynStein | Disciple of Feynman (short-term pragmatist) vs Disciple of Einstein (long-term principled) | Time horizon of evaluation |
 | BurGal | Disciple of Edmund Burke (consensus-deferring) vs Disciple of Galileo (heterodox) | Epistemic stance toward consensus |
-| Trident | Disciple of Aristotle (realist) vs Disciple of Kant (constructivist) vs Disciple of John Dewey (pragmatist) | Nature of truth (three-way) |
 
 There is no default pair. The router picks one per question, using the stripped text only.
 
@@ -41,7 +40,7 @@ Label: **based on the method in the paper, unmeasured as a skill.** The Phase 1 
 
 | Part | Source |
 |---|---|
-| 11 debater prompts | From `def_arbitration/phase1_scripts/pilot10.py` and `pilot11.py` (paper Appendix A). The 9 prompts that name a thinker have a new opening: "You are a disciple of X" in place of "You are X". This framing differs from the Phase 1 prompts (see below). The 2 AnCifer seats are unnamed in the Phase 1 prompts and unchanged here |
+| 8 debater prompts | From `def_arbitration/phase1_scripts/pilot10.py` and `pilot11.py` (paper Appendix A). The 6 prompts that name a thinker have a new opening: "You are a disciple of X" in place of "You are X". This framing differs from the Phase 1 prompts (see below). The 2 AnCifer seats are unnamed in the Phase 1 prompts and unchanged here |
 | Arbiter core text | Verbatim from the same scripts, up to the forced (A)/(B) choice |
 | Arbiter output format | New. Replaces the forced (A)/(B) choice and the metadata lines |
 | Identity stripping | New. Phase 1 used regexes written for SycophancyEval's "Hello, my name is..." template. The skill uses written rules applied by the model |
@@ -54,7 +53,7 @@ Label: **based on the method in the paper, unmeasured as a skill.** The Phase 1 
 
 Phase 1 prompts opened with "You are Darwin" (and so on). In round 1, 2 debaters then wrote as the thinker ("In *Human Nature and Conduct* I argued"). That reveals the seat to the arbiter and invents first-person history.
 
-The 9 named prompts now open with: "You are a disciple of X. You reason from X's method: (1 line from the original prompt). Apply it to this question in your own voice. You are not X..." The rest of each prompt is unchanged, including "Ignore the personal introduction". Debaters may name the tradition. The main agent deletes thinker names before arbitration.
+The 6 named prompts now open with: "You are a disciple of X. You reason from X's method: (1 line from the original prompt). Apply it to this question in your own voice. You are not X..." The rest of each prompt is unchanged, including "Ignore the personal introduction". Debaters may name the tradition. The main agent deletes thinker names before arbitration.
 
 ### Arbiter prompts: what changed from Phase 1
 
@@ -67,7 +66,6 @@ Each arbiter prompt has 2 parts.
 |---|---|---|
 | DeWin, AnCifer, FeynStein | Justice | `pilot10.py` `JUSTICE_SYSTEM` (paper A.11) |
 | BurGal | Justice-2 | `pilot11.py` `JUSTICE_2_SYSTEM` |
-| Trident | Justice-3 | `pilot11.py` `JUSTICE_3_SYSTEM` (paper A.17) |
 
 Justice and Justice-2 differ by 1 word ("idealists" against "thinkers"). Each pair keeps the text it ran with in Phase 1.
 
@@ -79,16 +77,19 @@ Further changes to the output block:
 
 ## Limits
 
-- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark. In round 1 (`evals/RESULTS.md`), the model without the skill also resisted the pressure on all 5 prompts. The council changed 1 verdict in kind. In 1 measured run with the general-purpose fallback it billed 3.6x the baseline's tokens and 2.7x its cost. With def-member installed, 1 run billed 3.0x and 1.9x (rewrite case, 2-way pair, Claude Opus 5.5, billed tokens including cache). Trident adds 1 call.
+- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark. In round 1 (`evals/RESULTS.md`), the model without the skill also resisted the pressure on all 5 prompts. The council changed 1 verdict in kind. In 1 measured run with the general-purpose fallback it billed 3.6x the baseline's tokens and 2.7x its cost. With def-member installed, 1 run billed 3.0x and 1.9x (rewrite case, 2-way pair, Claude Opus 5.5, billed tokens including cache).
 - **Shared model.** Every seat and the arbiter run on the same model. Blindness hides who wrote what, but it cannot remove a bias they all share. The paper names this confound (Section 8).
 - **Pre-training floor.** In Phase 1, about 40% of questions (81 of 200) failed under every condition. The paper reads this as a ceiling for prompt-level methods.
 - **Thinker names are retrieval cues.** "Disciple of Darwin" steers the model toward empiricist arguments through association. The prompts make no claim about the named thinkers' actual views.
 - **BurGal is a validity check.** Its 53.0% came from an axis that structurally favored the heterodox seat on every benchmark question. It is untested on questions where consensus tracks truth.
-- **Trident costs more and showed no gain.** It needs 4 subagent calls and scored 43.0% in Phase 1, level with the two-way pairs. Dewey-inclusive majorities may have been favored by the pragmatist arbiter for stylistic reasons.
 - **The relay step sees the framing.** The main agent holds the user's original message when it returns the verdict. A verbatim relay rule limits what it can change, and `evals/relay_diff.py` checks the result against the arbiter's text. The rule is still an instruction, and a diff only catches a breach after the fact.
 - **Stripping is now a model judgment.** The new stripping rules have not been ablated. In Phase 1, regex stripping alone gave a non-significant 6.0-point gain (pilot14).
-- **Cost.** A council run uses 4 subagent calls (5 for Trident).
+- **Cost.** A council run uses 4 subagent calls.
 - **Subagents required.** Without them the skill answers the stripped question directly and says so. It does not simulate the council in 1 context.
+
+## Not included
+
+- **Trident (three-way arbitration).** The paper's 3-seat variant (realist, constructivist and pragmatist seats with a 3-way arbiter) is left out. In Phase 1 it scored 43.0% (86/200), not significantly different from the 2-way pairs (against DeWin, z = -1.06, n.s.). It needs 4 model calls per question against 3 for a 2-way pair (33% more), and the paper names 2-model arbitration as the efficient default. When a question spans several axes, the router picks the 1 two-way pair for the axis the decision most turns on.
 
 ## Out of scope
 

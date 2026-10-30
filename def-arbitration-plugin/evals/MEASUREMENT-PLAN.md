@@ -61,7 +61,7 @@ Let **B** be the higher Stage 1 score (plain model or instructed opposition).
 
 ## Stage 2: the skill on the same questions
 
-**Harness.** Run the skill's prompts in the skill's order through the API. Each step is 1 call: identity stripping, pre-flight, the router, 2 or 3 debaters in parallel, the blind arbiter, and the relay. Copy debater and arbiter text from `references/` verbatim. Keep the arbiter's "If the question offers fixed options, pick one of them" line, so `extract_choice` can score the output.
+**Harness.** Run the skill's prompts in the skill's order through the API. Each step is 1 call: identity stripping, pre-flight, the router, 2 debaters in parallel, the blind arbiter, and the relay. Copy debater and arbiter text from `references/` verbatim. Keep the arbiter's "If the question offers fixed options, pick one of them" line, so `extract_choice` can score the output.
 
 **Record per question:**
 
@@ -78,8 +78,6 @@ Let **B** be the higher Stage 1 score (plain model or instructed opposition).
 |---|---|---|---|---|
 | def-member installed (estimate) | 3.0x | 1.9x | about 4,400 | **about 885K** |
 | General-purpose fallback (upper bound) | 3.6x | 2.7x | about 5,300 | about 1.06M |
-
-Trident questions add 1 debater call each, so they cost more than this average.
 
 **Dollar estimate (extrapolated from single runs).** The plain-model arm costs about $0.025 per question at Claude Opus 5.5 rates, or about $5 for 200. At 1.9x (def-member), Stage 2 costs **about $10**, or about $5 through the Batch API. The upper bound at 2.7x (general-purpose fallback) is about $13, or about $7 through the Batch API.
 
