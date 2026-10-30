@@ -68,3 +68,55 @@ Each subagent started with about 50K tokens of Claude Code setup (instructions a
 ## What would measure the skill
 
 These cases check behavior. Measuring the skill would mean running it on a fixed question set with ground truth, such as the 200 SycophancyEval questions from Phase 1, against the same baselines on the same current model. That has not been done.
+
+# Round 2: def-member agent and disciple framing
+
+Date: 2026-10-30. 1 council run (rewrite case) plus 1 extra spot-check question. Claude Opus 5.5 throughout.
+
+## Summary
+
+- **def-member cut each subagent from about 54K tokens to 6K to 8K.** Most of a general-purpose subagent's tokens were Claude Code setup it does not need.
+- **The whole council run fell from $1.42 to $0.98** (760K to 631K tokens). Against the round 1 baseline, that is 3.0x the tokens and 1.8x the cost.
+- **The main agent is now 96% of the tokens and 86% of the cost.** It made 10 requests, and each one re-reads its whole context.
+- **The disciple framing produced no first-person claims** in 5 debater outputs across 2 questions.
+
+## Per call (rewrite case)
+
+| Call | Requests | Input | Output | Cost | Round 1 cost |
+|---|---|---|---|---|---|
+| Main agent | 10 | 594,040 | 9,444 | $0.85 | $0.82 |
+| Router | 1 | 5,827 | 304 | $0.02 | $0.44 |
+| Debater 1 | 1 | 5,615 | 900 | $0.03 | $0.03 |
+| Debater 2 | 1 | 5,672 | 890 | $0.03 | $0.03 |
+| Arbiter | 1 | 7,305 | 820 | $0.05 | $0.11 |
+| Total | 14 | 618,459 | 12,358 | $0.98 | $1.42 |
+
+Limits of this comparison:
+
+- **1 run each.**
+- **Different cache lifetimes.** Round 1 subagents wrote 1-hour cache entries, which cost 2x. Round 2 wrote 5-minute entries, which cost 1.25x. Part of the router's drop comes from that.
+- **The skill changed between rounds** (the disciple prompts and the plain axis line).
+- **The baseline was not rerun.**
+
+## Disciple framing spot check
+
+Questions:
+
+- **Q1 (rewrite case):** disciples of Feynman and Einstein.
+- **Q2 (addiction case):** disciples of Aristotle, Kant and John Dewey.
+
+I searched each output for first-person authorship claims ("I argued", "my book", "in my experiment" and similar) and for any thinker or pair name.
+
+| Seat | Words | First-person claims | Names found |
+|---|---|---|---|
+| Disciple of Feynman | 449 | none | "Feynman's habit" (1) |
+| Disciple of Einstein | 450 | none | none |
+| Disciple of Aristotle | 470 | none | "the Aristotelian tradition" (1) |
+| Disciple of Kant | 487 | none | "Following Kant", "Kant's resolution" (2) |
+| Disciple of John Dewey | 506 | none | "the Deweyan tradition" (1) |
+
+- **Names.** The framing allows tradition names, and the scrub step removes them before arbitration. The orchestrator removed "Feynman's habit" correctly. The scrub rule now lists derived forms ("Aristotelian", "Deweyan"). No pair nickname appeared.
+- **Commitment.** All 5 arguments state a position in the first lines and argue it without hedging.
+- **Q1 agreement.** Both Q1 seats chose incremental refactoring.
+- **Q2 agreement.** All 3 Q2 seats rejected the choice-or-disease split, as in round 1. The new "argue at full strength" line did not push them apart. On these questions the positions converge on the merits.
+- **Length.** All 5 ran over the "about 400 words" limit (449 to 506).
