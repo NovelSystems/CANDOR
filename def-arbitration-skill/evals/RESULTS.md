@@ -122,3 +122,26 @@ I searched each output for first-person authorship claims ("I argued", "my book"
 - **Q1 agreement.** Both Q1 seats chose incremental refactoring.
 - **Q2 agreement.** All 3 Q2 seats rejected the choice-or-disease split, as in round 1. The new "argue at full strength" line did not push them apart. On these questions the positions converge on the merits.
 - **Length.** All 5 ran over the "about 400 words" limit (449 to 506).
+
+# Round 3: verbatim relay
+
+Date: 2026-10-30. 1 council run (rewrite case), def-member installed, Claude Opus 5.5.
+
+## Summary
+
+- **The relay was verbatim.** `relay_diff.py` found 0 word-level changes between the arbiter's ANSWER and OTHER SIDE and the text above the separator. Under the round 2 rules the same check found 56 changes (62.5% similarity).
+- **The "On your question" line broke the rule slightly.** It ran to 2 sentences, and its closing words ("the right call here, not a cautious one") answer the user's "cowardice" framing. That is a small piece of argument the rule does not allow.
+- **The help section is unrestricted and long.** It was a 6-point pitch outline, and point 5 restates the case against a rewrite. The rule limits the tie line. It sets no limit on reasoning inside the help.
+- **Debaters still overshoot.** At "about 500 words" they wrote 609 and 633.
+- **Cost was $0.93** (601K tokens). The main agent's longer output (the pitch outline) accounts for most of the rise from $0.75.
+
+## Per call
+
+| Call | Requests | Tokens | Cost |
+|---|---|---|---|
+| Main agent | 9 | 572,261 | $0.78 |
+| Router | 1 | 6,165 | $0.04 |
+| Debater 1 | 1 | 6,754 | $0.03 |
+| Debater 2 | 1 | 6,870 | $0.04 |
+| Arbiter | 1 | 8,752 | $0.04 |
+| Total | 13 | 600,802 | $0.93 |
