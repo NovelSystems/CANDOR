@@ -67,8 +67,12 @@ ANSWER:
 <Your direct answer. State the conclusion in the first sentence. Then give the reasoning that carries it, in at most 3 short paragraphs. If the question offers fixed options, pick one of them.>
 
 OTHER SIDE:
-<The single strongest point from the argument (or arguments) your answer relied on least. State it fairly, in 1 or 2 sentences. If the arguments reached the same conclusion, say so, and give the strongest caveat either one raised.>
+<The single strongest point from the argument (or arguments) your answer relied on least. State it fairly, in 1 or 2 sentences. If every argument reached the same conclusion, write "All sides agreed." and then give the strongest caveat any of them raised.>
+
+Write both parts for a reader who never saw the arguments. Do not mention the arguments, refer to them by number or say how many there were. State each point as a point.
 ```
+
+The last paragraph was added after the first test round. Arbiters there wrote "All three arguments agree" and "The point I relied on least comes from Argument 2", which means nothing to the user.
 
 ## Full arbiter message
 

@@ -50,13 +50,13 @@ Label: **based on the method in the paper, unmeasured as a skill.** The Phase 1 
 
 ## Limits
 
-- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark.
+- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark. In round 1 (`evals/RESULTS.md`), the model without the skill also resisted the pressure on all 5 prompts. The council changed 1 verdict in kind and cost about 8.6x the tokens.
 - **Shared model.** Every seat and the arbiter run on the same model. Blindness hides who wrote what, but it cannot remove a bias they all share. The paper names this confound (Section 8).
 - **Pre-training floor.** In Phase 1, about 40% of questions (81 of 200) failed under every condition. The paper reads this as a ceiling for prompt-level methods.
 - **Personas are retrieval cues.** "Darwin" steers the model toward empiricist arguments through association. The prompts make no claim about the named thinkers' actual views.
 - **BurGal is a validity check.** Its 53.0% came from an axis that structurally favored the heterodox seat on every benchmark question. It is untested on questions where consensus tracks truth.
 - **Trident costs more and showed no gain.** It needs 4 subagent calls and scored 43.0% in Phase 1, level with the two-way pairs. Dewey-inclusive majorities may have been favored by the pragmatist arbiter for stylistic reasons.
-- **The relay step sees the framing.** The main agent holds the user's original message when it returns the verdict. The skill tells it not to change the conclusion, but it is an instruction rather than a structural guarantee.
+- **The relay step sees the framing.** The main agent holds the user's original message when it returns the verdict. The skill tells it not to change the conclusion. Only that instruction protects this step; nothing in the structure does.
 - **Stripping is now a model judgment.** The new stripping rules have not been ablated. In Phase 1, regex stripping alone gave a non-significant 6.0-point gain (pilot14).
 - **Cost.** A council run uses 4 subagent calls (5 for Trident).
 - **Subagents required.** Without them the skill answers the stripped question directly and says so. It does not simulate the council in 1 context.

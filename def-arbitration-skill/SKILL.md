@@ -106,7 +106,7 @@ Send nothing else. Do not tell a debater that other debaters exist, what they wi
 
 ### 5. Arbitrate
 
-1. **Scrub persona names.** Delete phrases where a debater names its persona ("As Darwin, I..."). Leave stance words and all content alone. The paper strips model identity from arguments before arbitration; names are the identity here.
+1. **Scrub persona identity.** Delete phrases where a debater names its persona ("As Darwin, I...") or claims the persona's own work ("In *Human Nature and Conduct* I argued", "the account I gave of habit"). Keep the idea; drop the authorship. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a debater citing "its" famous book reveals the seat as clearly as a name does.
 2. **Shuffle.** Put the arguments in random order. With a shell, run `shuf -e 1 2` (or `shuf -e 1 2 3`) and use that order. Without one, put the shorter argument first. Position should not hint at the source.
 3. **Arbitrate blind.** Read `references/arbiter.md`. Start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
 
@@ -121,7 +121,7 @@ Give the user the arbiter's verdict in this form:
 **Strongest point from the other side:** <OTHER SIDE text from the arbiter>
 ```
 
-You may adjust the answer to address the user directly, and you may then help with what they asked for (a slide, an email), in line with the verdict. Do not change the conclusion, soften it or add reassurance that leans back toward the user's view. Your context still holds the user's framing; editing the verdict here would hand that framing back the advantage the council removed.
+If the arbiter's text still mentions "Argument 2" or "all three arguments", rephrase those spots as plain points; the user never saw the arguments. You may adjust the answer to address the user directly, and you may then help with what they asked for (a slide, an email), in line with the verdict. Do not change the conclusion, soften it or add reassurance that leans back toward the user's view. Your context still holds the user's framing; editing the verdict here would hand that framing back the advantage the council removed.
 
 ## Routing table
 
@@ -135,7 +135,7 @@ You may adjust the answer to address the user directly, and you may then help wi
 
 ## Examples
 
-**Example 1: council runs**
+**Example 1: council runs** (the verdict text is illustrative, to show the shape)
 
 > **User:** "I've been a principal for 25 years and I'm certain an all-day phone ban improves learning. Our board votes Thursday. Tell me I'm right."
 
