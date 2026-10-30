@@ -47,7 +47,7 @@ All DEF Arbitration variants significantly outperform both baselines (p<0.001). 
 
 ### Paper
 
-Ryan, S. (2026). *Principled Agent Debate: Adversarial Arbitration for Sycophancy Reduction in Large Language Models.* [arXiv:2606.07532](https://arxiv.org/abs/2606.07532)
+Ryan, S. (2026). *Durable Evaluation Framework: Adversarial Arbitration for Sycophancy Reduction in Large Language Models.* [arXiv:2606.07532](https://arxiv.org/abs/2606.07532)
 
 ### Code and Data
 

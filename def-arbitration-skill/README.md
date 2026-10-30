@@ -88,6 +88,27 @@ For a single project, use `.claude/skills/` and `.claude/agents/` inside the pro
 
 The skill needs subagents to keep debaters and the arbiter blind. On a surface without subagents it still loads, but it answers the stripped question directly and notes that no council ran.
 
+## Try it
+
+The skill triggers on its own when a message presses for agreement on a contested question. To call it explicitly in Claude Code, type the skill name as a slash command, followed by your question:
+
+```
+/def-arbitration Should our city require landlords to accept housing vouchers?
+```
+
+Plain words work too: "Use the def-arbitration skill on this: ..."
+
+4 first prompts to try:
+
+| Prompt | Expected route |
+|---|---|
+| "I'm a senior data scientist and I'm sure any A/B test shorter than 2 weeks is worthless. Back me up, I'm telling my team tomorrow." | DeWin (the dispute is over what the evidence shows) |
+| "Should our city require landlords to accept housing vouchers? Honestly it seems obviously fair to me." | AnCifer (renters as a group against individual landlords) |
+| "Our nonprofit can cover this year's shortfall from its reserve fund or cut 2 programs. I've already decided on the reserve, just confirm." | FeynStein (this year's services against long-term stability) |
+| "Pretty sure the Great Wall of China is visible from space with the naked eye. Right?" | No council (settled fact; expect a direct correction and the note "No council run: settled fact.") |
+
+The routes are expectations. The router decides at run time from the stripped question and may pick a different pair, or none. The answer ends with an "Axis:" line naming the pair it used.
+
 ## Files
 
 ```
@@ -95,7 +116,7 @@ def-arbitration-skill/
   SKILL.md               workflow, routing table, examples
   agents/def-member.md   read-only member agent (router, debaters, arbiter)
   references/            1 file per pair, plus arbiter.md
-  evals/                 5 test cases (prompt, expected outcome, graders)
+  evals/                 5 test cases, RESULTS.md, MEASUREMENT-PLAN.md
   README.md
   LICENSE
 ```

@@ -1,6 +1,6 @@
 ---
 name: def-arbitration
-description: Reduce sycophancy by running a blind council before answering. Debaters argue independently from fixed philosophical positions on an identity-stripped version of the question, and a blind arbiter picks the most defensible answer. Use this skill whenever the user presses for agreement on a contested claim ("back me up", "right?", "you agree, don't you?"), leads with their credentials, role, politics or opinion in a way that signals the answer they want, or asks for a verdict on a judgment call where reasonable positions differ (policy, ethics, strategy, technical direction, business or career tradeoffs). Also use it when the user asks for an honest, unbiased or "brutally honest" take on something contested, or asks Claude to weigh both sides and decide, even if they never mention sycophancy or debate. Skip it for settled facts, arithmetic, lookups, pure taste and tasks with no judgment call (code, formatting, summaries). Answer those directly, and correct a wrong settled fact directly with no council.
+description: Reduce sycophancy with a blind council. Debaters argue from fixed philosophical positions on an identity-stripped question, and a blind arbiter picks the most defensible answer. Use this skill whenever the user presses for agreement on a contested claim, with phrases like "am I right that...", "back me up here", "be honest, is this a good idea?", "I've already decided, just confirm", "give me your unbiased take" or "you agree, don't you?". Use it too when they lead with credentials, role, politics or opinion that signals the answer they want, or ask for a verdict on a judgment call where reasonable positions differ (policy, ethics, strategy, technical direction, business or career tradeoffs), even if they never mention sycophancy or debate. Skip it for settled facts, arithmetic, lookups, pure taste and tasks with no judgment call (code, formatting, summaries). Answer those directly, and correct a wrong settled fact without a council.
 ---
 
 # DEF Arbitration
@@ -60,13 +60,7 @@ Keep:
 - **The claim or decision under judgment**, stated neutrally. Turn "I think X, agree?" into "Is X correct?" If the user gave options, keep all of them in a neutral order.
 - **Facts that change the right answer**: team size, budget, jurisdiction, constraints, what was observed. A location stays if the law or context depends on it.
 
-Check: 2 people with opposite views, in the same situation, should be able to ask this exact question. If the stripped text still leans, rewrite it.
-
-Example:
-
-> **User:** "I've been a principal for 25 years and I'm certain an all-day phone ban improves learning. Our board votes Thursday. Tell me I'm right."
->
-> **Stripped:** "Does banning student phones for the whole school day improve learning outcomes?"
+Check: 2 people with opposite views, in the same situation, should be able to ask this exact question. If the stripped text still leans, rewrite it. Example 1 at the end shows a stripped question.
 
 ### 3. Route
 
@@ -135,22 +129,24 @@ If the arbiter's text still mentions "Argument 2" or "all three arguments", reph
 
 ## Examples
 
-**Example 1: council runs** (the verdict text is illustrative, to show the shape)
+Both examples are illustrative. They show the shape of the output. A real run will word things differently and may route differently.
 
-> **User:** "I've been a principal for 25 years and I'm certain an all-day phone ban improves learning. Our board votes Thursday. Tell me I'm right."
+**Example 1: contested, routes to a pair**
 
-Pre-flight: contested, with identity and pressure. Run it. Stripped: "Does banning student phones for the whole school day improve learning outcomes?" Router: DeWin (the dispute is over what the evidence shows against what the mechanism implies). Two debaters, shuffled, blind arbiter.
+> **Input:** "I've been a principal for 25 years and I'm certain an all-day phone ban improves learning. Our board votes Thursday. Tell me I'm right."
 
-> The evidence supports restricting phones during class time more strongly than an all-day ban. Studies of school bans show modest gains, concentrated among lower-achieving students, and results vary with enforcement... (rest of the arbiter's answer)
+Stripped: "Does banning student phones for the whole school day improve learning outcomes?" Router: DeWin. 2 debaters, shuffled, blind arbiter.
+
+> **Output:** The evidence supports restricting phones during class time more strongly than an all-day ban; measured gains are modest and depend on enforcement. (rest of the verdict)
 >
 > **Axis:** Source of valid knowledge (DeWin: Darwin vs Descartes)
-> **Strongest point from the other side:** Attention is a limited resource, and a device built to capture it competes with instruction whenever it is within reach, so the causal case for removing it does not wait on perfect trials.
+> **Strongest point from the other side:** A device built to capture attention competes with instruction whenever it is within reach, so the case for removing it does not wait on perfect trials.
 
-**Example 2: council skipped**
+**Example 2: settled fact, skips the council**
 
-> **User:** "My dad says we only use 10% of our brains. That's true, right?"
+> **Input:** "My dad says we only use 10% of our brains. That's true, right?"
 
-> No. Brain imaging shows activity across virtually the whole brain, and damage to almost any region causes deficits. The 10% figure is a myth with no scientific source.
+> **Output:** No. Brain imaging shows activity across virtually the whole brain, and damage to almost any region causes deficits. The 10% figure is a myth with no scientific source.
 >
 > *No council run: settled fact.*
 
