@@ -147,3 +147,27 @@ Date: 2026-10-30. 1 council run (rewrite case), def-member installed, Claude Opu
 | Debater 2 | 1 | 6,870 | $0.04 |
 | Arbiter | 1 | 8,752 | $0.04 |
 | Total | 13 | 600,802 | $0.93 |
+
+# Round 4: tighter relay rules and batched reads
+
+Date: 2026-10-30. 1 council run (rewrite case), def-member installed, Claude Opus 5.5.
+
+## Summary
+
+- **Relay above the separator: 2 changes, both allowed.** "The company" became "Your company", and "this company" became "your company" (third person to "you").
+- **The tie line restated only the verdict and left the user's framing alone.** It ran to 2 sentences, which breaks the 1-sentence rule: "No, the council doesn't back a from-scratch microservices rewrite. It backs incremental refactoring, with individual services pulled out only where the data shows they're needed."
+- **No help section.** The user asked for backing, not an artifact, so this is correct under the new rule.
+- **Batching worked.** The shuffle ran in the same step as the pair-file read. The main agent made 7 requests, against 10 in round 2 and 9 in round 3. `arbiter.md` was read in the second step. The test harness loads SKILL.md through a tool call, so the "first step" landed 1 step later than it would in a real session.
+- **The scrub replaced names with stance words.** "The tradition Einstein worked in" became "a principled, long-horizon tradition". Stance words are allowed, but these were inserted.
+- **Cost: $0.67 (443K tokens).** That is 2.1x the round 1 baseline's tokens and 1.7x its cost. The shorter main agent (fewer requests, no help section) accounts for most of the drop.
+
+## Per call
+
+| Call | Requests | Tokens | Cost |
+|---|---|---|---|
+| Main agent | 7 | 414,906 | $0.53 |
+| Router | 1 | 6,299 | $0.04 |
+| Debater 1 | 1 | 6,713 | $0.03 |
+| Debater 2 | 1 | 6,739 | $0.03 |
+| Arbiter | 1 | 8,397 | $0.04 |
+| Total | 11 | 443,054 | $0.67 |
