@@ -11,12 +11,10 @@ The premise: a contested question rarely has a single absolutely right answer. D
 
 4 structural choices do the work:
 
-- **Fixed positions.** Each debater argues from a stable philosophical position. No one is told to oppose anyone. A debater told to argue against an answer still carries the pull toward agreement (instructed opposition scored 29.0% in Phase 1). A debater with its own commitment has something to defend.
+- **Fixed positions.** Each debater argues from a stable philosophical position. No one is told to oppose anyone. A debater told to argue against an answer still carries the pull toward agreement. A debater with its own commitment has something to defend.
 - **Independence.** Debaters run in separate contexts and never see each other. Iterative debate lets agents talk each other into agreement.
 - **Identity stripping.** Who is asking, and what they hope to hear, is removed before routing, debate and arbitration.
 - **Blind arbitration.** The arbiter sees shuffled, unlabeled arguments. It does not know which seat wrote what or which view the user holds.
-
-This is the prompt-level Phase 1 method from Ryan (2026), arXiv:2606.07532. The README covers the evidence and its limits.
 
 ## What you need
 
@@ -100,7 +98,7 @@ Send nothing else. Do not tell a debater that other debaters exist, what they wi
 
 ### 5. Arbitrate
 
-1. **Scrub persona identity.** Delete phrases where a debater names its persona ("As Darwin, I...") or claims the persona's own work ("In *Human Nature and Conduct* I argued", "the account I gave of habit"). Keep the idea; drop the authorship. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a debater citing "its" famous book reveals the seat as clearly as a name does.
+1. **Scrub seat identity.** Each debater is a disciple of a named thinker and may name that thinker's ideas as its tradition. Delete every mention of the seat's thinker by name ("Feynman's approach", "as a disciple of Darwin") and any first-person claim to that thinker's work ("In *Human Nature and Conduct* I argued"). Keep the idea; drop the name. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a thinker's name reveals the seat as clearly as a label does.
 2. **Shuffle.** Put the arguments in random order. With a shell, run `shuf -e 1 2` (or `shuf -e 1 2 3`) and use that order. Without one, put the shorter argument first. Position should not hint at the source.
 3. **Arbitrate blind.** Read `references/arbiter.md`. Start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
 
@@ -111,20 +109,20 @@ Give the user the arbiter's verdict in this form:
 ```
 <ANSWER text from the arbiter>
 
-**Axis:** <axis> (<Pair>: <seat A> vs <seat B>[ vs <seat C>])
+**Axis:** <the user-facing axis line for this pair, from the routing table>
 **Strongest point from the other side:** <OTHER SIDE text from the arbiter>
 ```
 
-If the arbiter's text still mentions "Argument 2" or "all three arguments", rephrase those spots as plain points; the user never saw the arguments. You may adjust the answer to address the user directly, and you may then help with what they asked for (a slide, an email), in line with the verdict. Do not change the conclusion, soften it or add reassurance that leans back toward the user's view. Your context still holds the user's framing; editing the verdict here would hand that framing back the advantage the council removed.
+If the arbiter's text still mentions "Argument 2" or "all three arguments", rephrase those spots as plain points; the user never saw the arguments. Pair nicknames and thinker names stay internal: the user sees only the plain axis line. You may adjust the answer to address the user directly, and you may then help with what they asked for (a slide, an email), in line with the verdict. Do not change the conclusion, soften it or add reassurance that leans back toward the user's view. Your context still holds the user's framing; editing the verdict here would hand that framing back the advantage the council removed.
 
 ## Routing table
 
-| Pair | Axis | Applies when |
+| Pair | Axis line shown to the user | Applies when |
 |---|---|---|
-| DeWin | Source of valid knowledge (empiricist vs rationalist) | The answer depends on what counts as good grounds: measured evidence against first-principles reasoning. Technical claims, methods, forecasts, "does X work". |
-| AnCifer | Primary unit of moral concern (collectivist vs individualist) | The answer depends on whose interests come first: the group or the individual. Mandates, bans, privacy against public good, duties to a community. |
-| FeynStein | Time horizon of evaluation (short-term pragmatist vs long-term principled) | Near-term measurable effects pull against durable principles or precedent. Budgets, strategy, career choices, institutional precedent. |
-| BurGal | Epistemic stance toward consensus (consensus-deferring vs heterodox) | The question itself asks whether to trust a consensus or expert majority against a named dissent. Narrow; see the caveat in `references/burgal.md`. |
+| DeWin | Source of knowledge (empiricist vs rationalist) | The answer depends on what counts as good grounds: measured evidence against first-principles reasoning. Technical claims, methods, forecasts, "does X work". |
+| AnCifer | Whose interests come first (collectivist vs individualist) | The answer depends on whose interests come first: the group or the individual. Mandates, bans, privacy against public good, duties to a community. |
+| FeynStein | Time horizon (short-term pragmatist vs long-term principled) | Near-term measurable effects pull against durable principles or precedent. Budgets, strategy, career choices, institutional precedent. |
+| BurGal | Trust in consensus (consensus-deferring vs heterodox) | The question itself asks whether to trust a consensus or expert majority against a named dissent. Narrow; see the caveat in `references/burgal.md`. |
 | Trident | Nature of truth (realist vs constructivist vs pragmatist) | Whether a category is real or constructed is in dispute and its practical effect matters, or the question spans several axes. Costs 1 extra call. |
 
 ## Examples
@@ -139,7 +137,7 @@ Stripped: "Does banning student phones for the whole school day improve learning
 
 > **Output:** The evidence supports restricting phones during class time more strongly than an all-day ban; measured gains are modest and depend on enforcement. (rest of the verdict)
 >
-> **Axis:** Source of valid knowledge (DeWin: Darwin vs Descartes)
+> **Axis:** Source of knowledge (empiricist vs rationalist)
 > **Strongest point from the other side:** A device built to capture attention competes with instruction whenever it is within reach, so the case for removing it does not wait on perfect trials.
 
 **Example 2: settled fact, skips the council**
@@ -153,6 +151,4 @@ Stripped: "Does banning student phones for the whole school day improve learning
 ## Limits to keep in mind
 
 - All seats run on the same underlying model, so they share its priors. Blindness hides who wrote what, but it cannot remove a bias every seat shares.
-- The paper estimates that about 40% of benchmark questions sit below a pre-training floor that no prompt-level method reached.
-- Persona names work as retrieval cues. They do not reproduce the named thinkers' actual views.
-- The Phase 1 accuracy figures do not transfer to this skill. It has not been measured. See the README.
+- Thinker names in the debater prompts work as retrieval cues. Each debater is a disciple of a tradition and does not reproduce the thinker's actual views.

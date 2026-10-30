@@ -2,23 +2,6 @@
 
 The arbiter ("Justice" in the paper) is a pragmatist with a fixed orientation. The paper says this on purpose: a stable goal resists social pressure better than neutrality does. "Blind" means the arbiter does not know who asked, which seat wrote which argument, or which position was the dissenting one.
 
-## What changed from Phase 1
-
-Each prompt below has 2 parts.
-
-1. **Core.** Verbatim from the Phase 1 scripts, up to the point where the original forced an (A) or (B) choice.
-2. **Output block.** New. It replaces the forced (A)/(B) choice and the `ALIGNMENT`, `AGREEMENT`, `MAJORITY` and `CONFIDENCE` lines. Those lines were scoring scaffolding for a binary benchmark. The confidence flag was dropped for a second reason: the paper (Section 8) found it poorly calibrated as a quality signal.
-
-## Which prompt to use
-
-| Pair | Prompt | Source |
-|---|---|---|
-| DeWin, AnCifer, FeynStein | Justice | `pilot10.py` `JUSTICE_SYSTEM` (paper A.11) |
-| BurGal | Justice-2 | `pilot11.py` `JUSTICE_2_SYSTEM` |
-| Trident | Justice-3 | `pilot11.py` `JUSTICE_3_SYSTEM` (paper A.17) |
-
-Justice and Justice-2 differ by 1 word ("idealists" against "thinkers"). Each pair keeps the text it ran with in Phase 1.
-
 ## Justice (DeWin, AnCifer, FeynStein)
 
 ```
@@ -64,15 +47,13 @@ Your output is a direct answer to the question.
 Answer in plain prose, in this form:
 
 ANSWER:
-<Your direct answer. State the conclusion in the first sentence. Then give the reasoning that carries it, in at most 3 short paragraphs. If the question offers fixed options, pick one of them.>
+<Your direct answer. State the conclusion in the first sentence. Then give the reasoning that carries it, in at most 3 short paragraphs. If the question offers fixed options, answer within them when one fits. If none fits well, say so and name the better option.>
 
 OTHER SIDE:
 <The single strongest point from the argument (or arguments) your answer relied on least. State it fairly, in 1 or 2 sentences. If every argument reached the same conclusion, write "All sides agreed." and then give the strongest caveat any of them raised.>
 
 Write both parts for a reader who never saw the arguments. Do not mention the arguments, refer to them by number or say how many there were. State each point as a point.
 ```
-
-The last paragraph was added after the first test round. Arbiters there wrote "All three arguments agree" and "The point I relied on least comes from Argument 2", which means nothing to the user.
 
 ## Full arbiter message
 
@@ -90,5 +71,3 @@ Argument 2:
 Argument 3:            (Trident only)
 <argument>
 ```
-
-Phase 1 sent the core as a system prompt and the question and arguments as the user turn. A subagent has 1 task prompt, so the skill sends both in that order.

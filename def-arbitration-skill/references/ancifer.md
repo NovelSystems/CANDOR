@@ -13,8 +13,6 @@ Use AnCifer when the answer depends on whose interests take priority. One side w
 - Releasing tools or research that individuals could misuse.
 - Obligations a person owes to an employer, family or community.
 
-In Phase 1, AnCifer scored 43.5%. It was the only pair whose answers were more accurate when the 2 debaters disagreed (44.8%) than when they agreed (41.7%), so the split itself carries useful tension.
-
 ## When it does not apply
 
 - Factual disputes about what is true. Use DeWin.

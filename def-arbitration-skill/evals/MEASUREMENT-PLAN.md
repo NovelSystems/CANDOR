@@ -6,12 +6,12 @@ Status: plan only. Nothing in this file has been run. Every run below is a paid 
 
 - **Model:** Claude Opus 5.5 (`claude-opus-5-5`) for every condition in both stages.
 - **Stage 1** reruns the 2 Phase 1 baselines (plain model and instructed opposition) on the same 200 SycophancyEval questions. Estimated cost: about 1.4M tokens, about $21.
-- **Stage 2** runs the skill on the same 200 questions. It runs only if Stage 1 leaves at least 14 points of headroom (decision rule below). Estimated cost: about 2.5M tokens, about $43.
+- **Stage 2** runs the skill on the same 200 questions. It runs only if Stage 1 leaves at least 14 points of headroom (decision rule below). Estimated cost: about 1.1M tokens, about $13 (extrapolated from 1 run).
 - **Scoring** is an exact text match on (A) or (B), using `extract_choice` from `def_arbitration/phase1_scripts`. No model grader is used.
 
 ## Why 2 stages
 
-Phase 1 ran on `claude-sonnet-4-20250514`. The current model may already resist identity-framed pressure far better. In round 1 (`RESULTS.md`), the model without the skill resisted on all 5 prompts. If the plain model now scores close to the ceiling, a skill run at n=200 cannot show a gain, and the money buys nothing. Stage 1 checks that first, for about a third of the total cost.
+Phase 1 ran on `claude-sonnet-4-20250514`. The current model may already resist identity-framed pressure far better. In round 1 (`RESULTS.md`), the model without the skill resisted on all 5 prompts. If the plain model now scores close to the ceiling, a skill run at n=200 cannot show a gain, and the money buys nothing. Stage 1 checks that first.
 
 ## Questions
 
@@ -72,11 +72,11 @@ Let **B** be the higher Stage 1 score (plain model or instructed opposition).
 
 **Scoring.** Same as Stage 1.
 
-**Token estimate.** The plain-model arm uses about 1,475 tokens per question. `RESULTS.md` measured the skill at about 8.6x the baseline, which gives about 12,700 tokens per question and **about 2.54M tokens** for 200 questions. That is roughly consistent with the API harness above (6 to 7 calls of about 1,500 tokens each).
+**Token estimate (extrapolated from 1 run).** The plain-model arm uses about 1,475 tokens per question. `RESULTS.md` measured 1 council run at 3.6x the baseline's billed tokens and 2.6x its cost (rewrite case, 2-way pair, Claude Opus 5.5, billed tokens including cache). Applied to the plain-model arm, that gives about 5,300 tokens per question and **about 1.06M tokens** for 200 questions. Trident questions add 1 debater call each, so they cost more than this average.
 
-**Dollar estimate.** At Claude Opus 5.5 rates, and assuming the plain-model arm's mix of input and output (about 19% input), Stage 2 costs about $43, or about $22 through the Batch API.
+**Dollar estimate (extrapolated from 1 run).** The plain-model arm costs about $0.025 per question at Claude Opus 5.5 rates, or about $5 for 200. At 2.6x, Stage 2 costs about $13, or about $6.50 through the Batch API.
 
-**Caveat on the 8.6x ratio.** It was measured inside Claude Code, where every subagent carries about 50K tokens of harness context. A council run there cost 466K to 536K tokens per question, so 200 questions would be about 100M tokens, mostly cached input. The API harness avoids that overhead. Run the skill through Claude Code itself only to check that the API harness and the skill give the same answers on a small sample (for example 20 questions).
+**Caveat on the ratios.** Both were measured inside Claude Code, where every subagent carries about 50K tokens of setup. That overhead sets the ratio there. An API harness has no such overhead, so its ratio may differ in either direction; the first 10 questions will show it. Run inside Claude Code, a council costs about 760K tokens ($1.42) per question, so 200 questions would be about 152M tokens and about $284, mostly cache reads. The API harness avoids that. Run the skill through Claude Code itself only to check that the API harness and the skill give the same answers on a small sample (for example 20 questions).
 
 ## Arbiter model
 
