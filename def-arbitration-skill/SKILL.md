@@ -88,7 +88,7 @@ Read `references/<pair>.md` (lowercase pair name). Start 1 `def-member` subagent
 ```
 <debater prompt for this seat, copied verbatim from the reference file>
 
-Keep your argument under about 400 words.
+Keep your argument under about 500 words.
 
 Question:
 <stripped question>
@@ -102,18 +102,35 @@ Send nothing else. Do not tell a debater that other debaters exist, what they wi
 2. **Shuffle.** Put the arguments in random order. With a shell, run `shuf -e 1 2` (or `shuf -e 1 2 3`) and use that order. Without one, put the shorter argument first. Position should not hint at the source.
 3. **Arbitrate blind.** Read `references/arbiter.md`. Start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
 
-### 6. Return the answer
+### 6. Return the answer (verbatim relay)
 
-Give the user the arbiter's verdict in this form:
+Print the arbiter's text exactly as written, in this form:
 
 ```
-<ANSWER text from the arbiter>
+<ANSWER text from the arbiter, verbatim>
 
 **Axis:** <the user-facing axis line for this pair, from the routing table>
-**Strongest point from the other side:** <OTHER SIDE text from the arbiter>
+**Strongest point from the other side:** <OTHER SIDE text from the arbiter, verbatim>
+
+---
+
+**On your question:** <1 line>
+
+<any help the user asked for>
 ```
 
-If the arbiter's text still mentions "Argument 2" or "all three arguments", rephrase those spots as plain points; the user never saw the arguments. Pair nicknames and thinker names stay internal: the user sees only the plain axis line. You may adjust the answer to address the user directly, and you may then help with what they asked for (a slide, an email), in line with the verdict. Do not change the conclusion, soften it or add reassurance that leans back toward the user's view. Your context still holds the user's framing; editing the verdict here would hand that framing back the advantage the council removed.
+Only 3 edits to the arbiter's text are allowed:
+
+1. **Remove argument numbers and counts.** Delete phrases such as "from Argument 2" or "all three arguments". The user never saw the arguments.
+2. **Insert the axis line** from the routing table. Pair nicknames and thinker names stay internal.
+3. **Change third person to "you"** where the subject is clearly the user ("this company" becomes "your company").
+
+Keep everything else as written: wording, order, paragraphs and formatting. Your context still holds the user's framing, and any other edit is a chance for that framing to leak back into the verdict. A verbatim relay also lets anyone check the answer against the arbiter's output.
+
+Below the separator you may add 2 things, in this order:
+
+- **1 labelled line ("On your question:")** that ties the verdict to what the user literally asked, such as "Should I push back?". It may restate the verdict in those terms. It adds no reasoning and no reassurance.
+- **The help the user asked for** (a pitch outline, an email), consistent with the verdict.
 
 ## Routing table
 
@@ -139,6 +156,10 @@ Stripped: "Does banning student phones for the whole school day improve learning
 >
 > **Axis:** Source of knowledge (empiricist vs rationalist)
 > **Strongest point from the other side:** A device built to capture attention competes with instruction whenever it is within reach, so the case for removing it does not wait on perfect trials.
+>
+> ---
+>
+> **On your question:** The council does not back an all-day ban as stated; it backs restricting phones during class.
 
 **Example 2: settled fact, skips the council**
 

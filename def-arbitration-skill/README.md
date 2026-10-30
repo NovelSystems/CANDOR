@@ -15,14 +15,14 @@ Author: Sam Ryan, Novel Systems Engineering LLC.
 3. **Routing.** A subagent that sees only the stripped question picks 1 of 5 debate pairs, or none.
 4. **Debate.** 1 read-only subagent per seat, run in parallel. No debater sees another's output.
 5. **Blind arbitration.** A separate subagent receives the shuffled, unlabeled arguments and the stripped question. It never sees the user's message.
-6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal.
+6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal. The main agent relays the arbiter's text verbatim (3 mechanical edits allowed). After a separator it may add 1 line tying the verdict to the user's literal question, then any help the user asked for.
 
 ## Pairs
 
 | Pair | Seats | Axis |
 |---|---|---|
 | DeWin | Disciple of Darwin (empiricist) vs Disciple of Descartes (rationalist) | Source of valid knowledge |
-| AnCifer | Collectivist vs Individualist (Angel and Lucifer in the paper; the prompts name no thinker) | Primary unit of moral concern |
+| AnCifer | Strict collectivist vs strict individualist (unnamed in the Phase 1 prompts and unchanged here) | Primary unit of moral concern |
 | FeynStein | Disciple of Feynman (short-term pragmatist) vs Disciple of Einstein (long-term principled) | Time horizon of evaluation |
 | BurGal | Disciple of Edmund Burke (consensus-deferring) vs Disciple of Galileo (heterodox) | Epistemic stance toward consensus |
 | Trident | Disciple of Aristotle (realist) vs Disciple of Kant (constructivist) vs Disciple of John Dewey (pragmatist) | Nature of truth (three-way) |
@@ -41,7 +41,7 @@ Label: **based on the method in the paper, unmeasured as a skill.** The Phase 1 
 
 | Part | Source |
 |---|---|
-| 11 debater prompts | From `def_arbitration/phase1_scripts/pilot10.py` and `pilot11.py` (paper Appendix A). The 9 prompts that name a thinker have a new opening: "You are a disciple of X" in place of "You are X". This framing differs from the Phase 1 prompts (see below). The 2 AnCifer prompts name no thinker and are verbatim |
+| 11 debater prompts | From `def_arbitration/phase1_scripts/pilot10.py` and `pilot11.py` (paper Appendix A). The 9 prompts that name a thinker have a new opening: "You are a disciple of X" in place of "You are X". This framing differs from the Phase 1 prompts (see below). The 2 AnCifer seats are unnamed in the Phase 1 prompts and unchanged here |
 | Arbiter core text | Verbatim from the same scripts, up to the forced (A)/(B) choice |
 | Arbiter output format | New. Replaces the forced (A)/(B) choice and the metadata lines |
 | Identity stripping | New. Phase 1 used regexes written for SycophancyEval's "Hello, my name is..." template. The skill uses written rules applied by the model |
@@ -79,13 +79,13 @@ Further changes to the output block:
 
 ## Limits
 
-- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark. In round 1 (`evals/RESULTS.md`), the model without the skill also resisted the pressure on all 5 prompts. The council changed 1 verdict in kind. In 1 measured run it billed 3.6x the baseline's tokens and 2.6x its cost (rewrite case, 2-way pair, Claude Opus 5.5, billed tokens including cache). Trident adds 1 call.
+- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark. In round 1 (`evals/RESULTS.md`), the model without the skill also resisted the pressure on all 5 prompts. The council changed 1 verdict in kind. In 1 measured run with the general-purpose fallback it billed 3.6x the baseline's tokens and 2.7x its cost. With def-member installed, 1 run billed 3.0x and 1.9x (rewrite case, 2-way pair, Claude Opus 5.5, billed tokens including cache). Trident adds 1 call.
 - **Shared model.** Every seat and the arbiter run on the same model. Blindness hides who wrote what, but it cannot remove a bias they all share. The paper names this confound (Section 8).
 - **Pre-training floor.** In Phase 1, about 40% of questions (81 of 200) failed under every condition. The paper reads this as a ceiling for prompt-level methods.
 - **Thinker names are retrieval cues.** "Disciple of Darwin" steers the model toward empiricist arguments through association. The prompts make no claim about the named thinkers' actual views.
 - **BurGal is a validity check.** Its 53.0% came from an axis that structurally favored the heterodox seat on every benchmark question. It is untested on questions where consensus tracks truth.
 - **Trident costs more and showed no gain.** It needs 4 subagent calls and scored 43.0% in Phase 1, level with the two-way pairs. Dewey-inclusive majorities may have been favored by the pragmatist arbiter for stylistic reasons.
-- **The relay step sees the framing.** The main agent holds the user's original message when it returns the verdict. The skill tells it not to change the conclusion. Only that instruction protects this step; nothing in the structure does.
+- **The relay step sees the framing.** The main agent holds the user's original message when it returns the verdict. A verbatim relay rule limits what it can change, and `evals/relay_diff.py` checks the result against the arbiter's text. The rule is still an instruction, and a diff only catches a breach after the fact.
 - **Stripping is now a model judgment.** The new stripping rules have not been ablated. In Phase 1, regex stripping alone gave a non-significant 6.0-point gain (pilot14).
 - **Cost.** A council run uses 4 subagent calls (5 for Trident).
 - **Subagents required.** Without them the skill answers the stripped question directly and says so. It does not simulate the council in 1 context.
@@ -110,6 +110,8 @@ mkdir -p ~/.claude/agents && cp def-arbitration-skill/agents/def-member.md ~/.cl
 ```
 
 Start a new session so both load. The member agent has Read, Grep and Glob only. If it is missing, the skill falls back to a general-purpose subagent with a read-only instruction, which is weaker.
+
+Installing def-member also lowers cost. Each def-member subagent used 6K to 8K tokens in testing, against about 54K for a general-purpose one. In 1 run each, the whole council cost $0.75 with def-member and $1.02 without (`evals/RESULTS.md`).
 
 For a single project, use `.claude/skills/` and `.claude/agents/` inside the project instead.
 

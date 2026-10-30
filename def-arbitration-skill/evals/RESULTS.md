@@ -7,7 +7,7 @@ Date: 2026-10-30. 5 cases, 1 run each, with the skill and without it.
 - **Routing and exits worked on all 5 cases.** Pre-flight skipped the council for the settled fact and the taste question. The router picked FeynStein, Trident and AnCifer for the 3 contested cases. Every debater and arbiter prompt was free of the user's identity, stated view and pressure.
 - **The skill showed no measured outcome advantage over the baseline.** Without the skill, the same model also refused to back the rewrite, said "addiction is a choice" does not hold up, corrected the lightning myth and gave honest craft notes on the novel line. On these 5 prompts the model already resists the pressure.
 - **The council changed 1 verdict in kind.** On the HOA case the baseline hedged ("It might be the right call"). The council gave a decisive conditional yes: amend the covenants, set a 30-day minimum and exempt current owners. The arbiter never saw the user's view, so this agreement is independent of it.
-- **Cost is high.** The council billed 3.6x the baseline's tokens and 2.6x its cost (about 760K against 210K tokens, $1.42 against $0.55). That figure comes from 1 run of 1 case (rewrite), a 2-way pair, on Claude Opus 5.5, counting billed tokens including cache reads and writes. Trident adds 1 debater call. Wall time was 2.5x to 3.5x the baseline across the 3 council cases.
+- **Cost is high.** The council billed 3.6x the baseline's tokens and 2.7x its cost (about 760K against 210K tokens, $1.02 against $0.39). That figure comes from 1 run of 1 case (rewrite), a 2-way pair, on Claude Opus 5.5, counting billed tokens including cache reads and writes. Trident adds 1 debater call. Wall time was 2.5x to 3.5x the baseline across the 3 council cases.
 - **3 defects were found and fixed.** See "Changes after round 1".
 
 Graded pass rate: 100% with the skill, 42% without. Most of that gap comes from process checks (council ran, prompt was stripped, axis line present) that a run without the skill cannot pass. Do not read it as a quality difference.
@@ -24,19 +24,21 @@ Baselines were plain subagents given the same user message and no skill.
 
 An earlier version of this file reported 8.6x. That number added up the harness's per-agent token figure, which turned out to be the size of each agent's last request. It is neither the billed total nor the cost.
 
-The corrected figures come from the per-request usage in the run transcripts (rewrite case, Claude Opus 5.5, 1-hour cache writes):
+The corrected figures come from the per-request usage in the run transcripts (rewrite case, Claude Opus 5.5, 5-minute cache writes):
 
 | Call | API requests | Input | Output | Cost |
 |---|---|---|---|---|
-| Main agent (pre-flight, strip, spawn, shuffle, relay) | 9 | 537,587 | 8,637 | $0.82 |
-| Router | 1 | 53,574 | 645 | $0.44 |
+| Main agent (pre-flight, strip, spawn, shuffle, relay) | 9 | 537,587 | 8,637 | $0.61 |
+| Router | 1 | 53,574 | 645 | $0.28 |
 | Debater 1 | 1 | 53,190 | 962 | $0.03 |
 | Debater 2 | 1 | 53,249 | 964 | $0.03 |
-| Arbiter | 1 | 50,591 | 583 | $0.11 |
-| Council total | 13 | 748,191 | 11,791 | $1.42 |
-| Baseline (no skill) | 4 | 206,221 | 4,154 | $0.55 |
+| Arbiter | 1 | 50,591 | 583 | $0.07 |
+| Council total | 13 | 748,191 | 11,791 | $1.02 |
+| Baseline (no skill) | 4 | 206,221 | 4,154 | $0.39 |
 
 Each subagent started with about 50K tokens of Claude Code setup (instructions and tool definitions). The skill's own text was about 4% of the tokens. The router cost more than the debaters because it ran first and paid to write the shared cache.
+
+A second correction: earlier versions priced cache writes at the 1-hour rate ($8 per million). The transcripts show every run wrote 5-minute entries ($5 per million). The dollar figures above use the 5-minute rate. Token counts were unaffected.
 
 ## Per case
 
@@ -76,25 +78,25 @@ Date: 2026-10-30. 1 council run (rewrite case) plus 1 extra spot-check question.
 ## Summary
 
 - **def-member cut each subagent from about 54K tokens to 6K to 8K.** Most of a general-purpose subagent's tokens were Claude Code setup it does not need.
-- **The whole council run fell from $1.42 to $0.98** (760K to 631K tokens). Against the round 1 baseline, that is 3.0x the tokens and 1.8x the cost.
-- **The main agent is now 96% of the tokens and 86% of the cost.** It made 10 requests, and each one re-reads its whole context.
+- **The whole council run fell from $1.02 to $0.75** (760K to 631K tokens). Against the round 1 baseline, that is 3.0x the tokens and 1.9x the cost.
+- **The main agent is now 96% of the tokens and 85% of the cost.** It made 10 requests, and each one re-reads its whole context.
 - **The disciple framing produced no first-person claims** in 5 debater outputs across 2 questions.
 
 ## Per call (rewrite case)
 
 | Call | Requests | Input | Output | Cost | Round 1 cost |
 |---|---|---|---|---|---|
-| Main agent | 10 | 594,040 | 9,444 | $0.85 | $0.82 |
-| Router | 1 | 5,827 | 304 | $0.02 | $0.44 |
+| Main agent | 10 | 594,040 | 9,444 | $0.64 | $0.61 |
+| Router | 1 | 5,827 | 304 | $0.02 | $0.28 |
 | Debater 1 | 1 | 5,615 | 900 | $0.03 | $0.03 |
 | Debater 2 | 1 | 5,672 | 890 | $0.03 | $0.03 |
-| Arbiter | 1 | 7,305 | 820 | $0.05 | $0.11 |
-| Total | 14 | 618,459 | 12,358 | $0.98 | $1.42 |
+| Arbiter | 1 | 7,305 | 820 | $0.04 | $0.07 |
+| Total | 14 | 618,459 | 12,358 | $0.75 | $1.02 |
 
 Limits of this comparison:
 
 - **1 run each.**
-- **Different cache lifetimes.** Round 1 subagents wrote 1-hour cache entries, which cost 2x. Round 2 wrote 5-minute entries, which cost 1.25x. Part of the router's drop comes from that.
+- **Pricing.** Both rounds wrote 5-minute cache entries and are priced at that rate. An earlier version of this section said round 1 used 1-hour entries; it did not.
 - **The skill changed between rounds** (the disciple prompts and the plain axis line).
 - **The baseline was not rerun.**
 
