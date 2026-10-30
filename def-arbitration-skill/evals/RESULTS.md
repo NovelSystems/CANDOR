@@ -1,5 +1,7 @@
 # Test results, round 1
 
+**Pricing basis for every dollar figure in this file:** Claude Opus 5.5 rates with 5-minute cache writes, as the run transcripts show. Per million tokens: $4 input, $5 cache write, $0.20 cache read, $20 output.
+
 Date: 2026-10-30. 5 cases, 1 run each, with the skill and without it.
 
 ## Summary
@@ -132,7 +134,7 @@ Date: 2026-10-30. 1 council run (rewrite case), def-member installed, Claude Opu
 - **The relay was verbatim.** `relay_diff.py` found 0 word-level changes between the arbiter's ANSWER and OTHER SIDE and the text above the separator. Under the round 2 rules the same check found 56 changes (62.5% similarity).
 - **The "On your question" line broke the rule slightly.** It ran to 2 sentences, and its closing words ("the right call here, not a cautious one") answer the user's "cowardice" framing. That is a small piece of argument the rule does not allow.
 - **The help section is unrestricted and long.** It was a 6-point pitch outline, and point 5 restates the case against a rewrite. The rule limits the tie line. It sets no limit on reasoning inside the help.
-- **Debaters still overshoot.** At "about 500 words" they wrote 609 and 633.
+- **Debaters still overshoot.** At "about 500 words" they wrote 609 and 633. The argument text alone comes to roughly 800 to 850 tokens each (estimated at about 1.33 tokens per word). That falls within the range of Phase 1's caps: above pilot10's 600 tokens and below pilot11's 1,000. The billed output per call was higher (1,147 and 1,206 tokens), because it includes the subagent's reply wrapper and a little thinking. The instruction stays at "about 500 words".
 - **Cost was $0.93** (601K tokens). The main agent's longer output (the pitch outline) accounts for most of the rise from $0.75.
 
 ## Per call

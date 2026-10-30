@@ -24,6 +24,11 @@ The premise: a contested question rarely has a single absolutely right answer. D
 
 ## Workflow
 
+Save round trips by batching reads. Each of your steps re-reads your whole context, so combine independent tool calls into one step:
+
+- **First step:** read `references/arbiter.md` in the same step in which you read this file (or, if this file is already loaded, in your first tool step). Every council uses it, whatever the pair.
+- **Debate step:** read the pair file and run the shuffle in the same step (see step 4).
+
 ### 1. Pre-flight: is a council warranted?
 
 A council costs 4 or 5 subagent calls. Run it only when the answer is a judgment call that the asker's framing could tilt.
@@ -83,7 +88,7 @@ If the router says NONE, answer the stripped question directly and add: *No coun
 
 ### 4. Debate
 
-Read `references/<pair>.md` (lowercase pair name). Start 1 `def-member` subagent per seat: 2 for a two-way pair, 3 for Trident. Send them all in the same message so they run in parallel. Each prompt is:
+In one step, read `references/<pair>.md` (lowercase pair name) and run the shuffle for step 5 (`shuf -e 1 2`, or `shuf -e 1 2 3` for Trident). The order does not depend on the arguments, so it can be fixed now. Then start 1 `def-member` subagent per seat: 2 for a two-way pair, 3 for Trident. Send them all in the same message so they run in parallel. Each prompt is:
 
 ```
 <debater prompt for this seat, copied verbatim from the reference file>
@@ -99,8 +104,8 @@ Send nothing else. Do not tell a debater that other debaters exist, what they wi
 ### 5. Arbitrate
 
 1. **Scrub seat identity.** Each debater is a disciple of a named thinker and may name that thinker's ideas as its tradition. Delete every mention of the seat's thinker by name or derived form ("Feynman's approach", "as a disciple of Darwin", "the Aristotelian tradition", "Deweyan") and any first-person claim to that thinker's work ("In *Human Nature and Conduct* I argued"). Keep the idea; drop the name. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a thinker's name reveals the seat as clearly as a label does.
-2. **Shuffle.** Put the arguments in random order. With a shell, run `shuf -e 1 2` (or `shuf -e 1 2 3`) and use that order. Without one, put the shorter argument first. Position should not hint at the source.
-3. **Arbitrate blind.** Read `references/arbiter.md`. Start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
+2. **Shuffle.** Put the arguments in the random order you drew in step 4. Without a shell, put the shorter argument first. Position should not hint at the source.
+3. **Arbitrate blind.** Using `references/arbiter.md` (read in your first step), start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
 
 ### 6. Return the answer (verbatim relay)
 
@@ -114,7 +119,7 @@ Print the arbiter's text exactly as written, in this form:
 
 ---
 
-**On your question:** <1 line>
+**On your question:** <1 sentence>
 
 <any help the user asked for>
 ```
@@ -129,8 +134,10 @@ Keep everything else as written: wording, order, paragraphs and formatting. Your
 
 Below the separator you may add 2 things, in this order:
 
-- **1 labelled line ("On your question:")** that ties the verdict to what the user literally asked, such as "Should I push back?". It may restate the verdict in those terms. It adds no reasoning and no reassurance.
-- **The help the user asked for** (a pitch outline, an email), consistent with the verdict.
+- **1 sentence labelled "On your question:"** that ties the verdict to what the user literally asked, such as "Should I push back?". It restates the verdict in those terms and nothing else. It does not mention, quote or answer the user's framing (their credentials, their stated view, words like "cowardice"), and it adds no reasoning and no reassurance.
+- **The artifacts the user asked for, and only those** (a pitch outline, an email). Build them in line with the verdict. Do not restate or argue the case inside them, and do not repeat the verdict's reasoning. If the user asked for nothing beyond a verdict, add nothing here.
+
+The verdict above the separator already carries the reasoning. Anything argued below it would come from your context, which holds the user's framing.
 
 ## Routing table
 
