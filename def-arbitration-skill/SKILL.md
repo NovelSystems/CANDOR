@@ -98,7 +98,7 @@ Send nothing else. Do not tell a debater that other debaters exist, what they wi
 
 ### 5. Arbitrate
 
-1. **Scrub seat identity.** Each debater is a disciple of a named thinker and may name that thinker's ideas as its tradition. Delete every mention of the seat's thinker by name ("Feynman's approach", "as a disciple of Darwin") and any first-person claim to that thinker's work ("In *Human Nature and Conduct* I argued"). Keep the idea; drop the name. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a thinker's name reveals the seat as clearly as a label does.
+1. **Scrub seat identity.** Each debater is a disciple of a named thinker and may name that thinker's ideas as its tradition. Delete every mention of the seat's thinker by name or derived form ("Feynman's approach", "as a disciple of Darwin", "the Aristotelian tradition", "Deweyan") and any first-person claim to that thinker's work ("In *Human Nature and Conduct* I argued"). Keep the idea; drop the name. Leave stance words and all other content alone. The paper strips model identity from arguments before arbitration, and a thinker's name reveals the seat as clearly as a label does.
 2. **Shuffle.** Put the arguments in random order. With a shell, run `shuf -e 1 2` (or `shuf -e 1 2 3`) and use that order. Without one, put the shorter argument first. Position should not hint at the source.
 3. **Arbitrate blind.** Read `references/arbiter.md`. Start 1 `def-member` subagent with the arbiter prompt for this pair, then the output block, then the question and the arguments labeled "Argument 1", "Argument 2" (and "Argument 3"). Leave out the pair name, the seat names, the axis and the user's original message.
 
