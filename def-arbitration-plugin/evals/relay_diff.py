@@ -10,23 +10,22 @@ FINAL_REPLY holds what the user saw. With --trace, both are read from a
 `claude plugin eval --keep-temp` trace (out/trace.jsonl): the last subagent
 result that contains ANSWER: and OTHER SIDE:, and the last assistant text.
 
-2 checks run:
-1. Verbatim relay. Only the part of the final reply above the first "---"
-   line is compared, with the Axis line and the "Strongest point" label
-   removed. Every word-level change is printed. Allowed edits (argument
-   numbers or counts removed, third person changed to "you") still show up;
-   a person decides whether each change is allowed.
-2. Tie line. The "On your question:" line must be 1 sentence of at most 25
-   words.
+The verdict section of the final reply runs from the start of the reply to
+the "---" after the "Strongest point" line (or to the end). The Axis line and
+the "Strongest point" label are removed, and the rest is compared word by
+word with the arbiter's ANSWER and OTHER SIDE text.
 
-Exit status is 1 when the tie line fails, else 0.
+Every change is printed. Allowed edits (argument numbers or counts removed,
+third person changed to "you") still show up; a person decides whether each
+one is allowed. Text added before the verdict is reported as an intro, which
+the skill does not allow.
+
+Exit status is 1 when an intro is found, else 0.
 """
 import difflib
 import json
 import re
 import sys
-
-MAX_WORDS = 25
 
 
 def arbiter_parts(text):
@@ -38,32 +37,22 @@ def arbiter_parts(text):
 
 
 def relayed_parts(text):
-    # The verdict section ends at the "---" that precedes the tie line. Any
-    # earlier "---" (for example after an added intro) stays inside the
+    label = text.find("Strongest point from the other side:")
+    head = text
+    if label != -1:
+        end = re.search(r"^\s*---\s*$", text[label:], flags=re.M)
+        if end:
+            head = text[:label + end.start()]
+    # Any other "---" line (for example after an added intro) stays in the
     # compared text, so an intro shows up as an insertion.
-    tie = text.find("On your question:")
-    head = text[:tie] if tie != -1 else text
-    cut = list(re.finditer(r"^\s*---\s*$", head, flags=re.M))
-    above = head[:cut[-1].start()] if cut else head
-    above = re.sub(r"^\s*---\s*$", "", above, flags=re.M)
-    lines = [l for l in above.splitlines() if not re.match(r"\s*\**Axis:", l)]
+    head = re.sub(r"^\s*---\s*$", "", head, flags=re.M)
+    lines = [l for l in head.splitlines() if not re.match(r"\s*\**Axis:", l)]
     body = "\n".join(lines)
     return re.sub(r"\**Strongest point from the other side:\**\s*", "", body)
 
 
 def words(text):
     return re.sub(r"[*_`]", "", text).split()
-
-
-def tie_line(text):
-    match = re.search(r"On your question:\**\s*(.*)", text)
-    if not match:
-        return None
-    line = re.sub(r"[*_`]", "", match.group(1)).strip()
-    n_words = len(line.split())
-    # A sentence ends at . ! or ? followed by a space or the end of the line.
-    n_sentences = len(re.findall(r"[.!?](?=\s|$)", line)) or 1
-    return line, n_words, n_sentences
 
 
 def from_trace(path):
@@ -103,24 +92,24 @@ def main():
     arbiter = words(arbiter_parts(arbiter_text))
     relayed = words(relayed_parts(final_text))
     changes = 0
+    intro = None
     sm = difflib.SequenceMatcher(a=arbiter, b=relayed, autojunk=False)
     for op, a1, a2, b1, b2 in sm.get_opcodes():
         if op == "equal":
             continue
         changes += 1
+        # A 1-word swap at the start ("The company" to "Your company") is an
+        # allowed edit; added words before the verdict are an intro.
+        if b1 == 0 and a1 == 0 and (op == "insert" or (b2 - b1) > (a2 - a1) + 3):
+            intro = " ".join(relayed[b1:b2])
         print(f"{op:8s} arbiter: {' '.join(arbiter[a1:a2])!r}")
         print(f"{'':8s} relayed: {' '.join(relayed[b1:b2])!r}")
     print(f"relay: {changes} change(s); {sm.ratio():.3f} word-level similarity")
-
-    tie = tie_line(final_text)
-    if tie is None:
-        print("tie line: none found")
-        return 0
-    line, n_words, n_sentences = tie
-    ok = n_words <= MAX_WORDS and n_sentences == 1
-    print(f"tie line: {n_words} words, {n_sentences} sentence(s): {'PASS' if ok else 'FAIL'}")
-    print(f"  {line}")
-    return 0 if ok else 1
+    if intro is not None:
+        print(f"intro before verdict: FAIL ({len(intro.split())} words)")
+        return 1
+    print("intro before verdict: none")
+    return 0
 
 
 if __name__ == "__main__":

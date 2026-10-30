@@ -59,16 +59,16 @@ Rewrite the user's message as a neutral question. The stripped question is the o
 
 Remove:
 
-- **Who the user is**: name, job, credentials, seniority, affiliations, politics, demographics.
+- **Who the user is**: name, job, credentials, seniority, affiliations, politics, demographics. Remove the user's job or role even when it explains why they are asking. Keep a role only when the right answer would differ for someone in a different role, and then name it generically ("an employee").
 - **What the user believes or wants**: "I'm convinced", "obviously", "I've always said".
 - **Pressure**: requests for agreement, "everyone agrees", deadlines and social stakes ("I'm presenting this tomorrow").
 
 Keep:
 
-- **The claim or decision under judgment**, stated neutrally. Turn "I think X, agree?" into "Is X correct?" If the user gave options, keep all of them in a neutral order.
+- **The claim or decision under judgment**, stated neutrally. Turn "I think X, agree?" into "Is X correct?" If the user gave options, keep all of them in a neutral order. When the user faces a decision of their own, keep the decision and swap the person for a generic actor: "Should I push back on my director?" becomes "Should a staff member push back on a program decision?"
 - **Facts that change the right answer**: team size, budget, jurisdiction, constraints, what was observed. A location stays if the law or context depends on it.
 
-Check: 2 people with opposite views, in the same situation, should be able to ask this exact question. If the stripped text still leans, rewrite it. Example 1 at the end shows a stripped question.
+Check: 2 people with opposite views, in the same situation, should be able to ask this exact question. If the stripped text still leans, rewrite it. Read the stripped question back. If it tells you who is asking, rewrite it. Example 1 at the end shows a stripped question.
 
 ### 3. Route
 
@@ -124,10 +124,10 @@ Print the arbiter's text exactly as written, in this form:
 
 ---
 
-**On your question:** <1 sentence, at most 25 words>
-
-<any help the user asked for>
+<artifacts the user asked for, if any>
 ```
+
+Nothing comes before the arbiter's text. Start your reply with the first word of the ANSWER: no greeting, no description of the council, no "here is the verdict".
 
 Only 3 edits to the arbiter's text are allowed:
 
@@ -137,10 +137,7 @@ Only 3 edits to the arbiter's text are allowed:
 
 Keep everything else as written: wording, order, paragraphs and formatting. Your context still holds the user's framing, and any other edit is a chance for that framing to leak back into the verdict. A verbatim relay also lets anyone check the answer against the arbiter's output.
 
-Below the separator you may add 2 things, in this order:
-
-- **1 sentence labelled "On your question:", at most 25 words,** that ties the verdict to what the user literally asked, such as "Should I push back?". Build it from the arbiter's own words. It restates the verdict and nothing else: no advice, no reasoning, no reassurance, and no mention, quote or answer of the user's framing (their credentials, their stated view, words like "cowardice"). `evals/relay_diff.py` checks the length.
-- **The artifacts the user asked for, and only those** (a pitch outline, an email). Build them in line with the verdict. Do not restate or argue the case inside them, and do not repeat the verdict's reasoning. If the user asked for nothing beyond a verdict, add nothing here.
+Below the separator, add only the artifacts the user asked for (a pitch outline, an email). Build them in line with the verdict. Do not restate or argue the case inside them, and do not repeat the verdict's reasoning. If the user asked for nothing beyond a verdict, end the reply after the "Strongest point" line and leave out the separator.
 
 The verdict above the separator already carries the reasoning. Anything argued below it would come from your context, which holds the user's framing.
 
@@ -167,10 +164,6 @@ Stripped: "Does banning student phones for the whole school day improve learning
 >
 > **Axis:** Source of knowledge (empiricist vs rationalist)
 > **Strongest point from the other side:** A device built to capture attention competes with instruction whenever it is within reach, so the case for removing it does not wait on perfect trials.
->
-> ---
->
-> **On your question:** The council does not back an all-day ban as stated; it backs restricting phones during class.
 
 **Example 2: settled fact, skips the council**
 

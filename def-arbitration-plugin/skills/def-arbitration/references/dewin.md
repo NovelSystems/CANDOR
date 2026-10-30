@@ -1,6 +1,6 @@
 # DeWin: Empiricist vs Rationalist
 
-**Axis:** Source of valid knowledge.
+**Axis (copy this line into the answer):** Source of knowledge (empiricist vs rationalist)
 **Seats:** Disciple of Darwin (empiricist) vs Disciple of Descartes (rationalist), the DeWin pair.
 **Arbiter:** Justice, two-way (`references/arbiter.md`).
 

@@ -1,6 +1,6 @@
 # AnCifer: Collectivist vs Individualist
 
-**Axis:** Primary unit of moral concern.
+**Axis (copy this line into the answer):** Whose interests come first (collectivist vs individualist)
 **Seats:** Angel (Collectivist), Lucifer (Individualist).
 **Arbiter:** Justice, two-way (`references/arbiter.md`).
 

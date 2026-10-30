@@ -15,7 +15,7 @@ Author: Sam Ryan, Novel Systems Engineering LLC.
 3. **Routing.** A subagent that sees only the stripped question picks 1 of 4 two-way debate pairs, or none.
 4. **Debate.** 1 read-only subagent per seat, run in parallel. No debater sees another's output.
 5. **Blind arbitration.** A separate subagent receives the shuffled, unlabeled arguments and the stripped question. It never sees the user's message.
-6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal. The main agent relays the arbiter's text verbatim (3 mechanical edits allowed). After a separator it may add 1 line tying the verdict to the user's literal question, then any help the user asked for.
+6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal. The main agent relays the arbiter's text verbatim (3 mechanical edits allowed), with nothing before it. After a separator it may add only the artifacts the user asked for, such as an email or a pitch outline.
 
 ## Pairs
 
@@ -74,6 +74,14 @@ Further changes to the output block:
 - **Reader rule.** The block tells the arbiter to write for a reader who never saw the arguments. In round 1, arbiters wrote "The point I relied on least comes from Argument 2", which means nothing to the user.
 - **Fixed options.** Phase 1 forced a pick between (A) and (B). The block now says to answer within the offered options when one fits, and to name a better option when none does.
 - **Message layout.** Phase 1 sent the core as a system prompt, with the question and arguments as the user turn. A subagent takes 1 task prompt, so the skill sends both in that order.
+
+## Evals
+
+The test cases in `evals/` check process compliance. They confirm that the skill runs a council when it should, skips one when it should, sends stripped prompts to blind subagents and relays the verdict in the required form. They do not measure answer quality.
+
+On these 5 prompts the plain model already declines to be sycophantic, so the skill adds little to the scored outcome (mean delta +0.07 in round 5). Read the eval scores as a check that the workflow runs as written. They are not a quality or accuracy result.
+
+The skill's benefit is unmeasured. Measuring it needs the 200-question SycophancyEval run described in `evals/MEASUREMENT-PLAN.md`. Results of each test round are in `evals/RESULTS.md`.
 
 ## Limits
 
@@ -181,6 +189,7 @@ The routes are expectations. The router decides at run time from the stripped qu
 def-arbitration/
   .claude-plugin/plugin.json         plugin manifest
   .claude-plugin/marketplace.json    marketplace listing this folder (source "./")
+  .claude-plugin/icon.png            listing icon (1254 x 1254 PNG)
   skills/def-arbitration/SKILL.md    workflow, routing table, examples
   skills/def-arbitration/references/ 1 file per pair, plus arbiter.md
   agents/def-member.md               read-only member agent (router, debaters, arbiter)
