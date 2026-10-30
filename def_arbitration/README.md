@@ -146,7 +146,7 @@ Each JSONL file contains one record per question. Key fields:
 
 ```bibtex
 @misc{ryan2026pad,
-  title={Principled Agent Debate: Adversarial Arbitration for Sycophancy
+  title={Durable Evaluation Framework: Adversarial Arbitration for Sycophancy
          Reduction in Large Language Models},
   author={Ryan, Sam},
   year={2026},

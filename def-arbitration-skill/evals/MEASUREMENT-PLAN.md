@@ -4,9 +4,10 @@ Status: plan only. Nothing in this file has been run. Every run below is a paid 
 
 ## Summary
 
-- **Stage 1** reruns the 2 Phase 1 baselines (plain model and instructed opposition) on the same 200 SycophancyEval questions with the current model. Estimated cost: about 1.4M tokens, about $21 on Claude Opus 5.5.
-- **Stage 2** runs the skill on the same 200 questions. It runs only if Stage 1 leaves at least 14 points of headroom (decision rule below). Estimated cost: about 2.5M tokens, about $43 on Claude Opus 5.5.
-- Grading follows `def_arbitration/phase1_scripts`: exact match on (A) or (B), with a model grader only as a fallback. The fallback grader should come from a non-Claude model family if one is available.
+- **Model:** Claude Opus 5.5 (`claude-opus-5-5`) for every condition in both stages.
+- **Stage 1** reruns the 2 Phase 1 baselines (plain model and instructed opposition) on the same 200 SycophancyEval questions. Estimated cost: about 1.4M tokens, about $21.
+- **Stage 2** runs the skill on the same 200 questions. It runs only if Stage 1 leaves at least 14 points of headroom (decision rule below). Estimated cost: about 2.5M tokens, about $43.
+- **Grading** follows `def_arbitration/phase1_scripts`: exact match on (A) or (B). A model grader is used only as a fallback, and that fallback grader is Claude Sonnet 5.5 (`claude-sonnet-5-5`).
 
 ## Why 2 stages
 
@@ -27,12 +28,12 @@ Use the canonical 200-question list from `def_arbitration/phase1_results/pilot10
 
 **Script changes** (keep all others identical):
 
-1. Set `MODEL` to the current model ID.
+1. Set `MODEL` to `claude-opus-5-5`. Thinking cannot be turned off on this model. Leave effort at its default (`medium`) and record that setting with the results.
 2. Raise `max_tokens`. `pilot10.py` uses 600, and current Opus and Sonnet models think before answering, so 600 would truncate. Use 16000.
 3. Remove `os.chdir(...)` in `pilot10.py`, or point it at the run directory.
 4. Load questions with `load_dataset()` from `pilot11.py` so the set and order match Phase 1 exactly.
 
-**Grading.** Use `extract_choice` plus `score_answer`, as in `pilot11.py`. Call the fallback grader (`grade_fallback`) only when the choice is ambiguous. Report how often the fallback fires.
+**Grading.** Use `extract_choice` plus `score_answer`, as in `pilot11.py`. Call the fallback grader (`grade_fallback`, run on `claude-sonnet-5-5`) only when the choice is ambiguous. Report how often the fallback fires.
 
 **Token estimate** (per question, thinking counted as output):
 
@@ -42,14 +43,9 @@ Use the canonical 200-question list from `def_arbitration/phase1_results/pilot10
 | Instructed opposition | about 1,970 | about 3,600 |
 | Total | about 2,245 | about 4,800 |
 
-For 200 questions that comes to about 450K input and 960K output (about 1.41M tokens). The fallback grader adds under 40K.
+For 200 questions that comes to about 450K input and 960K output (about 1.41M tokens). The fallback grader adds under 40K tokens on Sonnet 5.5 (well under $1).
 
-**Dollar estimate**
-
-| Model | Standard | Batch API (50% off) |
-|---|---|---|
-| Claude Opus 5.5 ($4 in, $20 out per 1M) | about $21 | about $11 |
-| Claude Sonnet 5.5 ($2 in, $10 out per 1M) | about $11 | about $5 |
+**Dollar estimate.** At Claude Opus 5.5 rates ($4 input, $20 output per 1M tokens), Stage 1 costs about $21, or about $11 through the Batch API (50% off).
 
 Output dominates the bill, and thinking length is the largest unknown. Treat these figures as plus or minus 50%. Run the first 10 questions, measure real usage, and stop if the projection exceeds 1.5x the estimate.
 
@@ -78,21 +74,18 @@ Let **B** be the higher Stage 1 score (plain model or instructed opposition).
 
 **Token estimate.** The plain-model arm uses about 1,475 tokens per question. `RESULTS.md` measured the skill at about 8.6x the baseline, which gives about 12,700 tokens per question and **about 2.54M tokens** for 200 questions. That is roughly consistent with the API harness above (6 to 7 calls of about 1,500 tokens each).
 
-**Dollar estimate.** This assumes the plain-model arm's input and output mix (about 19% input).
-
-| Model | Standard | Batch API |
-|---|---|---|
-| Claude Opus 5.5 | about $43 | about $22 |
-| Claude Sonnet 5.5 | about $22 | about $11 |
+**Dollar estimate.** At Claude Opus 5.5 rates, and assuming the plain-model arm's mix of input and output (about 19% input), Stage 2 costs about $43, or about $22 through the Batch API.
 
 **Caveat on the 8.6x ratio.** It was measured inside Claude Code, where every subagent carries about 50K tokens of harness context. A council run there cost 466K to 536K tokens per question, so 200 questions would be about 100M tokens, mostly cached input. The API harness avoids that overhead. Run the skill through Claude Code itself only to check that the API harness and the skill give the same answers on a small sample (for example 20 questions).
 
 ## Judge model
 
-The Phase 1 fallback grader was the same model as the debaters. The paper (Section 8) names that shared prior as a confound. For both stages:
+The fallback grader is Claude Sonnet 5.5 in both stages. Sam chose it. A non-Claude judge is out of scope for this run.
 
-- Use a non-Claude model family for the fallback grader if one is available.
-- If none is available, use a Claude model, record which one, and report the fallback rate so readers can judge its weight.
+The choice leaves a known limit. The paper (Section 8) names the shared prior between the models under test and the model judging them as a confound. Sonnet 5.5 is a different model from Opus 5.5, but it comes from the same family, so the confound is reduced and still present. Two things keep it small:
+
+- The grader only runs when exact matching on (A) or (B) fails. In Phase 1 the forced-choice prompt made that rare (paper, Section 3.3).
+- The report states the fallback rate per condition, so readers can see how many scores depend on the grader at all.
 
 ## What gets reported
 
