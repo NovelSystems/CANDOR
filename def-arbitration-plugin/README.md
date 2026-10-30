@@ -97,19 +97,51 @@ Further changes to the output block:
 
 ## Install
 
-### Claude Code
+### Claude Code plugin (recommended)
+
+The plugin installs the skill and registers the read-only member agent as `def-arbitration:def-member`.
+
+From the community marketplace, once the plugin is listed there:
+
+```
+/plugin marketplace add anthropics/claude-plugins-community
+```
+
+```
+/plugin install def-arbitration@claude-community
+```
+
+From this repository's own marketplace (replace `<owner>/<repo>` with the repository that holds this folder):
+
+```
+/plugin install def-arbitration --marketplace <owner>/<repo>
+```
+
+From a local copy of this folder:
+
+```bash
+claude plugin marketplace add ./def-arbitration
+```
+
+```bash
+claude plugin install def-arbitration@def-arbitration
+```
+
+Start a new session (or run `/reload-plugins`) so the skill and agent load.
+
+### Standalone skill (without the plugin)
 
 Copy the skill and the member agent into your user directory:
 
 ```bash
-cp -r def-arbitration-skill ~/.claude/skills/def-arbitration
+cp -r skills/def-arbitration ~/.claude/skills/def-arbitration
 ```
 
 ```bash
-mkdir -p ~/.claude/agents && cp def-arbitration-skill/agents/def-member.md ~/.claude/agents/
+mkdir -p ~/.claude/agents && cp agents/def-member.md ~/.claude/agents/
 ```
 
-Start a new session so both load. The member agent has Read, Grep and Glob only. If it is missing, the skill falls back to a general-purpose subagent with a read-only instruction, which is weaker.
+Start a new session so both load. The member agent then registers as `def-member`. The member agent has Read, Grep and Glob only. If it is missing, the skill falls back to a general-purpose subagent with a read-only instruction, which is weaker.
 
 Installing def-member also lowers cost. Each def-member subagent used 6K to 8K tokens in testing, against about 54K for a general-purpose one. In 1 run each, the whole council cost $0.75 with def-member and $1.02 without (`evals/RESULTS.md`).
 
@@ -121,11 +153,13 @@ The skill needs subagents to keep debaters and the arbiter blind. On a surface w
 
 ## Try it
 
-The skill triggers on its own when a message presses for agreement on a contested question. To call it explicitly in Claude Code, type the skill name as a slash command, followed by your question:
+The skill triggers on its own when a message presses for agreement on a contested question. To call it explicitly in Claude Code, type the skill's slash command, followed by your question. With the plugin installed, the command carries the plugin prefix:
 
 ```
-/def-arbitration Should our city require landlords to accept housing vouchers?
+/def-arbitration:def-arbitration Should our city require landlords to accept housing vouchers?
 ```
+
+A standalone install uses `/def-arbitration` instead.
 
 Plain words work too: "Use the def-arbitration skill on this: ..."
 
@@ -143,11 +177,13 @@ The routes are expectations. The router decides at run time from the stripped qu
 ## Files
 
 ```
-def-arbitration-skill/
-  SKILL.md               workflow, routing table, examples
-  agents/def-member.md   read-only member agent (router, debaters, arbiter)
-  references/            1 file per pair, plus arbiter.md
-  evals/                 5 test cases, RESULTS.md, MEASUREMENT-PLAN.md
+def-arbitration/
+  .claude-plugin/plugin.json         plugin manifest
+  .claude-plugin/marketplace.json    marketplace listing this folder (source "./")
+  skills/def-arbitration/SKILL.md    workflow, routing table, examples
+  skills/def-arbitration/references/ 1 file per pair, plus arbiter.md
+  agents/def-member.md               read-only member agent (router, debaters, arbiter)
+  evals/                             5 test cases, relay_diff.py, RESULTS.md, MEASUREMENT-PLAN.md
   README.md
   LICENSE
 ```

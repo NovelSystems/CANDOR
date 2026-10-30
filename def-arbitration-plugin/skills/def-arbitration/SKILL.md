@@ -19,7 +19,12 @@ The premise: a contested question rarely has a single absolutely right answer. D
 ## What you need
 
 - **Subagents.** Blindness comes from separate contexts. Each subagent sees only the prompt you send.
-- **The `def-member` agent** (`agents/def-member.md`, tools: Read, Grep, Glob). Use it for the router, every debater and the arbiter. If it is not installed, use a general-purpose subagent and put this line at the top of each prompt: "Use only Read, Grep and Glob if you need tools. Do not write or edit files, run commands or start other agents."
+- **The member agent** (read-only: Read, Grep, Glob). Use it for the router, every debater and the arbiter. Pick the first one available:
+  1. `def-arbitration:def-member`, registered by the DEF Arbitration plugin.
+  2. `def-member`, for a standalone install that copied `agents/def-member.md` into an agents folder.
+  3. A general-purpose subagent, with this line at the top of each prompt: "Use only Read, Grep and Glob if you need tools. Do not write or edit files, run commands or start other agents."
+
+  Below, "`def-member` subagent" means whichever of these you use. The first 2 are also far cheaper: about 6K to 8K tokens per call in testing, against about 54K for a general-purpose subagent.
 - **No subagents at all** (for example, a chat surface without them): do not simulate the council in your own context. Your context holds the user's framing next to every argument, which is the exact setup DEF exists to avoid. Answer the stripped question directly and add the note: *No council run: subagents unavailable.*
 
 ## Workflow
