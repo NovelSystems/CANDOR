@@ -87,15 +87,6 @@ Further changes to the output block:
 - **Cost.** A council run uses 4 subagent calls.
 - **Subagents required.** Without them the skill answers the stripped question directly and says so. It does not simulate the council in 1 context.
 
-## Not included
-
-- **Trident (three-way arbitration).** The paper's 3-seat variant (realist, constructivist and pragmatist seats with a 3-way arbiter) is left out. In Phase 1 it scored 43.0% (86/200), not significantly different from the 2-way pairs (against DeWin, z = -1.06, n.s.). It needs 4 model calls per question against 3 for a 2-way pair (33% more), and the paper names 2-model arbitration as the efficient default. When a question spans several axes, the router picks the 1 two-way pair for the axis the decision most turns on.
-
-## Out of scope
-
-- **Phase 2.** Fine-tuned DEF models are the paper's next step. That work is blocked on hardware and is not part of this skill.
-- **Final memo check.** A later addition. It is not in v1.
-
 ## Install
 
 ### Claude Code plugin (recommended)
