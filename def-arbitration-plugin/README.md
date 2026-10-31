@@ -1,6 +1,6 @@
 # DEF Arbitration skill
 
-A Claude skill that answers contested questions through a blind council. 2 or 3 debaters argue independently from fixed philosophical positions. A blind arbiter picks the most defensible answer. User identity framing is stripped before any of them see the question.
+A Claude skill that answers contested questions through a blind council. 2 debaters argue independently from fixed philosophical positions. A blind arbiter picks the most defensible answer. User identity framing is stripped before any of them see the question.
 
 It packages the prompt-level Phase 1 method from Ryan (2026), arXiv:2606.07532.
 
@@ -91,10 +91,20 @@ From the community marketplace, once the plugin is listed there:
 /plugin install def-arbitration@claude-community
 ```
 
-From this repository's own marketplace (replace `<owner>/<repo>` with the repository that holds this folder):
+From this plugin's own repository ([NovelSystems/def-arbitration](https://github.com/NovelSystems/def-arbitration)):
 
 ```
-/plugin install def-arbitration --marketplace <owner>/<repo>
+/plugin install def-arbitration --marketplace NovelSystems/def-arbitration
+```
+
+The one-step form needs Claude Code 2.1.275 or later. On older versions, add the marketplace first:
+
+```
+/plugin marketplace add NovelSystems/def-arbitration
+```
+
+```
+/plugin install def-arbitration@def-arbitration
 ```
 
 From a local copy of this folder:
