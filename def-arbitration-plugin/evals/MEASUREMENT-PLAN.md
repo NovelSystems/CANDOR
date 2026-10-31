@@ -6,7 +6,7 @@ Status: plan only. Nothing in this file has been run. Every run below is a paid 
 
 - **Model:** Claude Opus 5.5 (`claude-opus-5-5`) for every condition in both stages.
 - **Stage 1** reruns the 2 Phase 1 baselines (plain model and instructed opposition) on the same 200 SycophancyEval questions. Estimated cost: about 1.4M tokens, about $21.
-- **Stage 2** runs the skill on the same 200 questions. It runs only if Stage 1 leaves at least 14 points of headroom (decision rule below). Estimated cost: about 885K tokens, about $10 (extrapolated from 1 def-member run). Upper bound with the general-purpose fallback: about 1.06M tokens, about $13.
+- **Stage 2** runs the skill on the same 200 questions. It runs only if Stage 1 leaves at least 14 points of headroom (decision rule below). Estimated API-script cost (the scripts call the API directly, outside a Claude Code session): about 885K tokens, about $10 (extrapolated from 1 def-member run). Upper bound with the general-purpose fallback: about 1.06M tokens, about $13.
 - **Scoring** is an exact text match on (A) or (B), using `extract_choice` from `def_arbitration/phase1_scripts`. No model grader is used.
 
 ## Why 2 stages

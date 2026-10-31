@@ -29,7 +29,7 @@ How it works:
 
 **Version:** 0.1.0
 
-**Repository URL:** https://github.com/NovelSystems/def-arbitration
+**Repository URL:** https://github.com/NovelSystems/def-arbitration-skill
 
 **Release tag:** def-arbitration--v0.1.0
 

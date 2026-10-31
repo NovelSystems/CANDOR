@@ -91,16 +91,16 @@ From the community marketplace, once the plugin is listed there:
 /plugin install def-arbitration@claude-community
 ```
 
-From this plugin's own repository ([NovelSystems/def-arbitration](https://github.com/NovelSystems/def-arbitration)):
+From this plugin's own repository ([NovelSystems/def-arbitration-skill](https://github.com/NovelSystems/def-arbitration-skill)):
 
 ```
-/plugin install def-arbitration --marketplace NovelSystems/def-arbitration
+/plugin install def-arbitration --marketplace NovelSystems/def-arbitration-skill
 ```
 
 The one-step form needs Claude Code 2.1.275 or later. On older versions, add the marketplace first:
 
 ```
-/plugin marketplace add NovelSystems/def-arbitration
+/plugin marketplace add NovelSystems/def-arbitration-skill
 ```
 
 ```
@@ -110,7 +110,7 @@ The one-step form needs Claude Code 2.1.275 or later. On older versions, add the
 From a local copy of this folder:
 
 ```bash
-claude plugin marketplace add ./def-arbitration
+claude plugin marketplace add ./def-arbitration-skill
 ```
 
 ```bash
@@ -133,7 +133,7 @@ mkdir -p ~/.claude/agents && cp agents/def-member.md ~/.claude/agents/
 
 Start a new session so both load. The member agent then registers as `def-member`. The member agent has Read, Grep and Glob only. If it is missing, the skill falls back to a general-purpose subagent with a read-only instruction, which is weaker.
 
-Installing def-member also lowers cost. Each def-member subagent used 6K to 8K tokens in testing, against about 54K for a general-purpose one (round 2, 1 run each). With def-member installed, a council run cost a median of $0.48 (round 7 eval, median of 9 runs, Claude Opus 5.5, 2026-10-31). The same 3 prompts without the plugin cost a median of $0.10 (9 runs). Details are in `evals/RESULTS.md`.
+Installing def-member also lowers cost. Each def-member subagent used 6K to 8K tokens in testing, against about 54K for a general-purpose one (round 2, 1 run each). With def-member installed, a council run cost a median of $0.48 (round 7 eval, 9 runs, range $0.45 to $0.52, Claude Opus 5.5, 2026-10-31). Details are in `evals/RESULTS.md`.
 
 For a single project, use `.claude/skills/` and `.claude/agents/` inside the project instead.
 
@@ -167,7 +167,7 @@ The routes are expectations. The router decides at run time from the stripped qu
 ## Files
 
 ```
-def-arbitration/
+def-arbitration-skill/
   .claude-plugin/plugin.json         plugin manifest
   .claude-plugin/marketplace.json    marketplace listing this folder (source "./")
   .claude-plugin/icon.png            listing icon (1254 x 1254 PNG)
