@@ -1,6 +1,6 @@
 # BurGal: Consensus-deferring vs Heterodox
 
-**Axis:** Epistemic stance toward consensus.
+**Axis (copy this line into the answer):** Trust in consensus (consensus-deferring vs heterodox)
 **Seats:** Disciple of Edmund Burke (consensus-deferring) vs Disciple of Galileo (heterodox), the BurGal pair.
 **Arbiter:** Justice-2 (`references/arbiter.md`).
 

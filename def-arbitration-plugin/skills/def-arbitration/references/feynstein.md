@@ -1,6 +1,6 @@
 # FeynStein: Short-term pragmatist vs Long-term principled
 
-**Axis:** Time horizon of evaluation.
+**Axis (copy this line into the answer):** Time horizon (short-term pragmatist vs long-term principled)
 **Seats:** Disciple of Feynman (short-term) vs Disciple of Einstein (long-term), the FeynStein pair.
 **Arbiter:** Justice, two-way (`references/arbiter.md`).
 

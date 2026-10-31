@@ -15,7 +15,7 @@ Author: Sam Ryan, Novel Systems Engineering LLC.
 3. **Routing.** A subagent that sees only the stripped question picks 1 of 4 two-way debate pairs, or none.
 4. **Debate.** 1 read-only subagent per seat, run in parallel. No debater sees another's output.
 5. **Blind arbitration.** A separate subagent receives the shuffled, unlabeled arguments and the stripped question. It never sees the user's message.
-6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal. The main agent relays the arbiter's text verbatim (3 mechanical edits allowed). After a separator it may add 1 line tying the verdict to the user's literal question, then any help the user asked for.
+6. **Answer.** The verdict, the axis used and the strongest point from the side that did not prevail. The axis appears in plain words, for example "Axis: Time horizon (short-term pragmatist vs long-term principled)". Pair nicknames and thinker names stay internal. The main agent relays the arbiter's text verbatim (3 mechanical edits allowed), with nothing before it. After a separator it may add only the artifacts the user asked for, such as an email or a pitch outline.
 
 ## Pairs
 
@@ -160,6 +160,7 @@ The routes are expectations. The router decides at run time from the stripped qu
 def-arbitration/
   .claude-plugin/plugin.json         plugin manifest
   .claude-plugin/marketplace.json    marketplace listing this folder (source "./")
+  .claude-plugin/icon.png            listing icon (1254 x 1254 PNG)
   skills/def-arbitration/SKILL.md    workflow, routing table, examples
   skills/def-arbitration/references/ 1 file per pair, plus arbiter.md
   agents/def-member.md               read-only member agent (router, debaters, arbiter)
