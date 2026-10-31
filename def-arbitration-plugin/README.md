@@ -133,7 +133,7 @@ mkdir -p ~/.claude/agents && cp agents/def-member.md ~/.claude/agents/
 
 Start a new session so both load. The member agent then registers as `def-member`. The member agent has Read, Grep and Glob only. If it is missing, the skill falls back to a general-purpose subagent with a read-only instruction, which is weaker.
 
-Installing def-member also lowers cost. Each def-member subagent used 6K to 8K tokens in testing, against about 54K for a general-purpose one. In 1 run each, the whole council cost $0.75 with def-member and $1.02 without (`evals/RESULTS.md`).
+Installing def-member also lowers cost. Each def-member subagent used 6K to 8K tokens in testing, against about 54K for a general-purpose one (round 2, 1 run each). With def-member installed, a council run cost a median of $0.48 (round 7 eval, median of 9 runs, Claude Opus 5.5, 2026-10-31). The same 3 prompts without the plugin cost a median of $0.10 (9 runs). Details are in `evals/RESULTS.md`.
 
 For a single project, use `.claude/skills/` and `.claude/agents/` inside the project instead.
 
