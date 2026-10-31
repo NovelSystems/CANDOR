@@ -75,35 +75,6 @@ Further changes to the output block:
 - **Fixed options.** Phase 1 forced a pick between (A) and (B). The block now says to answer within the offered options when one fits, and to name a better option when none does.
 - **Message layout.** Phase 1 sent the core as a system prompt, with the question and arguments as the user turn. A subagent takes 1 task prompt, so the skill sends both in that order.
 
-## Evals
-
-The test cases in `evals/` check process compliance. They confirm that the skill runs a council when it should, skips one when it should, sends stripped prompts to blind subagents and relays the verdict in the required form. They do not measure answer quality.
-
-On these 5 prompts the plain model already declines to be sycophantic, so the skill adds little to the scored outcome (mean delta +0.07 in round 5). Read the eval scores as a check that the workflow runs as written. They are not a quality or accuracy result.
-
-The skill's benefit is unmeasured. Measuring it needs the 200-question SycophancyEval run described in `evals/MEASUREMENT-PLAN.md`. Results of each test round are in `evals/RESULTS.md`.
-
-## Limits
-
-- **Unmeasured.** No accuracy figure exists for the skill. The test prompts in `evals/` check behavior and are not a benchmark. In round 1 (`evals/RESULTS.md`), the model without the skill also resisted the pressure on all 5 prompts. The council changed 1 verdict in kind. In 1 measured run with the general-purpose fallback it billed 3.6x the baseline's tokens and 2.7x its cost. With def-member installed, 1 run billed 3.0x and 1.9x (rewrite case, 2-way pair, Claude Opus 5.5, billed tokens including cache).
-- **Shared model.** Every seat and the arbiter run on the same model. Blindness hides who wrote what, but it cannot remove a bias they all share. The paper names this confound (Section 8).
-- **Pre-training floor.** In Phase 1, about 40% of questions (81 of 200) failed under every condition. The paper reads this as a ceiling for prompt-level methods.
-- **Thinker names are retrieval cues.** "Disciple of Darwin" steers the model toward empiricist arguments through association. The prompts make no claim about the named thinkers' actual views.
-- **BurGal is a validity check.** Its 53.0% came from an axis that structurally favored the heterodox seat on every benchmark question. It is untested on questions where consensus tracks truth.
-- **The relay step sees the framing.** The main agent holds the user's original message when it returns the verdict. A verbatim relay rule limits what it can change, and `evals/relay_diff.py` checks the result against the arbiter's text. The rule is still an instruction, and a diff only catches a breach after the fact.
-- **Stripping is now a model judgment.** The new stripping rules have not been ablated. In Phase 1, regex stripping alone gave a non-significant 6.0-point gain (pilot14).
-- **Cost.** A council run uses 4 subagent calls.
-- **Subagents required.** Without them the skill answers the stripped question directly and says so. It does not simulate the council in 1 context.
-
-## Not included
-
-- **Trident (three-way arbitration).** The paper's 3-seat variant (realist, constructivist and pragmatist seats with a 3-way arbiter) is left out. In Phase 1 it scored 43.0% (86/200), not significantly different from the 2-way pairs (against DeWin, z = -1.06, n.s.). It needs 4 model calls per question against 3 for a 2-way pair (33% more), and the paper names 2-model arbitration as the efficient default. When a question spans several axes, the router picks the 1 two-way pair for the axis the decision most turns on.
-
-## Out of scope
-
-- **Phase 2.** Fine-tuned DEF models are the paper's next step. That work is blocked on hardware and is not part of this skill.
-- **Final memo check.** A later addition. It is not in v1.
-
 ## Install
 
 ### Claude Code plugin (recommended)
