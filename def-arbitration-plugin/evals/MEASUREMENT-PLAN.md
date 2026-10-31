@@ -81,7 +81,7 @@ Let **B** be the higher Stage 1 score (plain model or instructed opposition).
 
 **Dollar estimate (extrapolated from single runs).** The plain-model arm costs about $0.025 per question at Claude Opus 5.5 rates, or about $5 for 200. At 1.9x (def-member), Stage 2 costs **about $10**, or about $5 through the Batch API. The upper bound at 2.7x (general-purpose fallback) is about $13, or about $7 through the Batch API.
 
-**Caveat on the ratios.** Both were measured inside Claude Code, where every subagent carries about 50K tokens of setup. That overhead sets the ratio there. An API harness has no such overhead, so its ratio may differ in either direction; the first 10 questions will show it. Run inside Claude Code with def-member, a council costs about 630K tokens ($0.75) per question, so 200 questions would be about 126M tokens and about $150, mostly cache reads. The API harness avoids that. Run the skill through Claude Code itself only to check that the API harness and the skill give the same answers on a small sample (for example 20 questions).
+**Caveat on the ratios.** Both were measured inside Claude Code, where every subagent carries about 50K tokens of setup. That overhead sets the ratio there. An API harness has no such overhead, so its ratio may differ in either direction; the first 10 questions will show it. Run inside Claude Code with def-member, a council costs a median of $0.48 per question (round 7 eval, median of 9 runs, Claude Opus 5.5, 2026-10-31), so 200 questions would cost about $96, mostly cache reads. The API harness avoids that. Run the skill through Claude Code itself only to check that the API harness and the skill give the same answers on a small sample (for example 20 questions).
 
 ## Arbiter model
 
